@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{%static 'website/css/owl.carousel.min.css'%}">
     <link rel="stylesheet" href="{%static 'website/css/animate.min.css'%}">
     <link rel="stylesheet" href="{%static 'website/css/quill.snow.css'%}">
-    <link rel="stylesheet" href="{% static 'website/css/owl.theme.default.min.css' %}">
+    
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{%static 'website/css/style.css'%}">    
@@ -105,126 +105,68 @@
       </div>
     </section>
 
-<!-- Carousel Section -->
     <section class="site-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                <div class="owl-carousel owl-theme">
-                    <!-- Slide 1: Job Seeker -->
-                    <div class="item">
-                    <h2 class="mb-4">Sign Up as a Job Seeker</h2>
-                    <!-- Your Job Seeker Form Goes Here -->
-                            <form action="#" class="p-4 border rounded">                
-                                <div class="row form-group mb-4">
-                                    <div class="col-md-12 mb-3 mb-md-0">
-                                    <label class="text-black" for="fname">First Name</label>
-                                    <input type="text" id="fname" class="form-control" placeholder="John">
-                                    </div>
-                                </div>
-                
-                                <div class="row form-group mb-4">
-                                    <div class="col-md-12 mb-3 mb-md-0">
-                                    <label class="text-black" for="fname">Last Name</label>
-                                    <input type="text" id="fname" class="form-control" placeholder="Cruz">
-                                    </div>
-                                </div>
-                
-                                <div class="row form-group">
-                                    <div class="col-md-12 mb-3 mb-md-0">
-                                    <label class="text-black" for="email">Email</label>
-                                    <input type="text" id="email" class="form-control" placeholder="Email address">
-                                    </div>
-                                </div>
-                
-                                <div class="row form-group mb-4">
-                                    <div class="col-md-12 mb-3 mb-md-0">
-                                    <label class="text-black" for="fname">Password</label>
-                                    <input type="password" id="fname" class="form-control" placeholder="Password">
-                                    </div>
-                                </div>
-                
-                                <div class="row form-group mb-4">
-                                    <div class="col-md-12 mb-3 mb-md-0">
-                                    <label class="text-black" for="fname">Reenter Password</label>
-                                    <input type="password" id="fname" class="form-control" placeholder="Password">
-                                    </div>
-                                </div>
-                            <div class="row form-group">
-                                <div class="col-md-12 text-center">
-                                <input type="submit" value="Sign Up" class="btn px-4 btn-primary text-white">
-                                </div>
-                            </div>
-                            </form>
-                            <p class="text-center mt-2">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
-                        </div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <h2 class="mb-4">Sign Up</h2>
+            <form action="#" class="p-4 border rounded">
 
-        
-                    <!-- Slide 2: Employer -->
-                    <div class="item">
-                    <h2 class="mb-4">Sign Up as an Employer</h2>
-                    <!-- Your Employer Form Goes Here -->
-                    <form action="#" class="p-4 border rounded">                
-                        <div class="row form-group mb-4">
-                            <div class="col-md-12 mb-3 mb-md-0">
-                            <label class="text-black" for="fname">First Name</label>
-                            <input type="text" id="fname" class="form-control" placeholder="John">
-                            </div>
-                        </div>
-        
-                        <div class="row form-group mb-4">
-                            <div class="col-md-12 mb-3 mb-md-0">
-                            <label class="text-black" for="fname">Last Name</label>
-                            <input type="text" id="fname" class="form-control" placeholder="Cruz">
-                            </div>
-                        </div>
-        
-                        <div class="row form-group">
-                            <div class="col-md-12 mb-3 mb-md-0">
-                            <label class="text-black" for="email">Email</label>
-                            <input type="text" id="email" class="form-control" placeholder="Email address">
-                            </div>
-                        </div>
-        
-                        <div class="row form-group mb-4">
-                            <div class="col-md-12 mb-3 mb-md-0">
-                            <label class="text-black" for="fname">Password</label>
-                            <input type="password" id="fname" class="form-control" placeholder="Password">
-                            </div>
-                        </div>
-        
-                        <div class="row form-group mb-4">
-                            <div class="col-md-12 mb-3 mb-md-0">
-                            <label class="text-black" for="fname">Reenter Password</label>
-                            <input type="password" id="fname" class="form-control" placeholder="Password">
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="col-md-12 mb-3 mb-md-0">
-                            <label class="text-black" for="email">Company Name</label>
-                            <input type="text" id="company" class="form-control" placeholder="Email address">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label for="job-description">Company Description (Optional)</label>
-                          <div class="editor" id="editor-2">
-                          </div>
-                        </div>
-
-                    <div class="row form-group">
-                        <div class="col-md-12 text-center">
-                        <input type="submit" value="Sign Up" class="btn px-4 btn-primary text-white">
-                        </div>
-                    </div>
-                    </form>
-                    <p class="text-center mt-2">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
-                    </div>
+              <div class="row form-group mb-4">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="userRole">I am a:</label>
+                  <select id="userRole" class="form-control" name="userRole">
+                    <option value="jobSeeker">Job Seeker</option>
+                    <option value="employer">Employer</option>
+                  </select>
                 </div>
+              </div>
+              
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Email</label>
+                  <input type="text" id="fname" class="form-control" placeholder="Email address">
                 </div>
-            </div>
+              </div>
+
+              <div class="row form-group mb-4">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">First Name</label>
+                  <input type="text" id="fname" class="form-control" placeholder="John">
+                </div>
+              </div>
+
+              <div class="row form-group mb-4">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Last Name</label>
+                  <input type="text" id="fname" class="form-control" placeholder="Cruz">
+                </div>
+              </div>
+
+              <div class="row form-group mb-4">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Password</label>
+                  <input type="password" id="fname" class="form-control" placeholder="Password">
+                </div>
+              </div>
+
+              <div class="row form-group mb-4">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="fname">Reenter Password</label>
+                  <input type="password" id="fname" class="form-control" placeholder="Password">
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-12 text-center">
+                  <input type="submit" value="Sign Up" class="btn px-4 btn-primary text-white">
+                </div>
+              </div>
+            </form>
+            <p class="text-center mt-2">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+          </div>
         </div>
+      </div>
     </section>
     
     <footer class="site-footer">
@@ -299,22 +241,7 @@
     <script src="{%static 'website/js/jquery.animateNumber.min.js'%}"></script>
     <script src="{%static 'website/js/owl.carousel.min.js'%}"></script>
     <script src="{%static 'website/js/quill.min.js'%}"></script>
-    
-    
     <script src="{%static 'website/js/bootstrap-select.min.js'%}"></script>
-    
     <script src="{%static 'website/js/custom.js'%}"></script>
-   <!-- Custom Carousel Initialization Script -->
-    <script>
-        $(document).ready(function() {
-        $('.owl-carousel').owlCarousel({
-            items: 1,
-            loop: false,
-            margin: 10,
-            nav: true,
-        });
-        });
-    </script>
-
   </body>
 </html>
