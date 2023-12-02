@@ -1,0 +1,30 @@
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
+class CreateUserForm(UserCreationForm):
+
+    email = forms.EmailField(required=True, error_messages={'required': 'email required.'})
+    first_name = forms.CharField(max_length=30, error_messages={'required': 'first name required.'})
+    last_name = forms.CharField(max_length=30, error_messages={'required': 'last name required.'})
+    user_role = forms.ChoiceField(choices=[('jobSeeker', 'Job Seeker'), ('employer', 'Employer')])
+    password1 = forms.CharField(widget=forms.PasswordInput, required=True, error_messages={'required': 'Please enter a password.'})
+    password2 = forms.CharField(widget=forms.PasswordInput, required=True, error_messages={'required': 'Please re-enter your password.'})
+
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name', 'password1', 'password2', 'user_role']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('This email address is already in use. Please use a different email.')
+        return email
+    
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError('The passwords do not match. Please enter the same password in both fields.')
+        return password2

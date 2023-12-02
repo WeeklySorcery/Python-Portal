@@ -109,51 +109,53 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6">
+            {% block content %}
             <h2 class="mb-4">Sign Up</h2>
-            <form action="#" class="p-4 border rounded">
+            <form action="{% url 'signup' %}" method="post" class="p-4 border rounded">
+              {% csrf_token %}
 
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="userRole">I am a:</label>
-                  <select id="userRole" class="form-control" name="userRole">
+                  <select id="userRole" class="form-control" name="user_role">
                     <option value="jobSeeker">Job Seeker</option>
                     <option value="employer">Employer</option>
                   </select>
                 </div>
               </div>
-              
+
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Email</label>
-                  <input type="text" id="fname" class="form-control" placeholder="Email address">
+                  <input type="text" id="email" class="form-control" placeholder="Email address" name="email">
                 </div>
               </div>
 
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">First Name</label>
-                  <input type="text" id="fname" class="form-control" placeholder="John">
+                  <input type="text" id="fname" class="form-control" placeholder="John" name="first_name">
                 </div>
               </div>
 
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Last Name</label>
-                  <input type="text" id="fname" class="form-control" placeholder="Cruz">
+                  <input type="text" id="lname" class="form-control" placeholder="Cruz" name="last_name">
                 </div>
               </div>
 
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Password</label>
-                  <input type="password" id="fname" class="form-control" placeholder="Password">
+                  <input type="password" id="password1" class="form-control" placeholder="Password" name="password1">
                 </div>
               </div>
 
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
                   <label class="text-black" for="fname">Reenter Password</label>
-                  <input type="password" id="fname" class="form-control" placeholder="Password">
+                  <input type="password" id="password2" class="form-control" placeholder="Password" name="password2">
                 </div>
               </div>
 
@@ -162,7 +164,21 @@
                   <input type="submit" value="Sign Up" class="btn px-4 btn-primary text-white">
                 </div>
               </div>
+
+              {# Display form errors at the top of the form #}
+              {% if form.errors %}
+                  <div class="alert alert-danger">
+                      <strong>Error:</strong>
+                      {% for field, error_list in form.errors.items %}
+                          {% for error in error_list %}
+                              {{ error }}
+                          {% endfor %}
+                      {% endfor %}
+                  </div>
+              {% endif %}
+              
             </form>
+            {% endblock %}
             <p class="text-center mt-2">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
           </div>
         </div>
