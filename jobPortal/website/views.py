@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CreateUserForm
+from django.contrib.auth.models import Group
 
 # Create your views here.
 def home(request):
@@ -34,6 +35,15 @@ def signup(request):
 
             # Save the user
             user.save()
+
+            # Determine the group based on the selected option in the form
+            user_group = form.cleaned_data['user_stat']
+
+            # Get or create the group
+            group, created = Group.objects.get_or_create(name=user_group)
+
+            # Add the user to the group
+            group.user_set.add(user)
 
             # Log the user in
             auth_login(request, user)

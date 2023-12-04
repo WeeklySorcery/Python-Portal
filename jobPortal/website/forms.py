@@ -8,13 +8,13 @@ class CreateUserForm(UserCreationForm):
     email = forms.EmailField(required=True, error_messages={'required': 'email required.'})
     first_name = forms.CharField(max_length=30, error_messages={'required': 'first name required.'})
     last_name = forms.CharField(max_length=30, error_messages={'required': 'last name required.'})
-    user_role = forms.ChoiceField(choices=[('jobSeeker', 'Job Seeker'), ('employer', 'Employer')])
+    user_stat = forms.ChoiceField(choices=[('jobSeeker', 'Job Seeker'), ('employer', 'Employer')])
     password1 = forms.CharField(widget=forms.PasswordInput, required=True, error_messages={'required': 'Please enter a password.'})
     password2 = forms.CharField(widget=forms.PasswordInput, required=True, error_messages={'required': 'Please re-enter your password.'})
 
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name', 'password1', 'password2', 'user_role']
+        fields = ['email', 'first_name', 'last_name', 'password1', 'password2', 'user_stat']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
