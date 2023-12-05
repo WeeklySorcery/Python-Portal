@@ -1,0 +1,55 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>JobBoard &mdash; Website Template by Colorlib</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{%static 'website/css/custom-bs.css'%}">
+    <link rel="stylesheet" href="{%static 'website/css/jquery.fancybox.min.css'%}">
+    <link rel="stylesheet" href="{%static 'website/css/bootstrap-select.min.css'%}">
+    <link rel="stylesheet" href="{%static 'website/fonts/icomoon/style.css'%}">
+    <link rel="stylesheet" href="{%static 'website/fonts/line-icons/style.css'%}">
+    <link rel="stylesheet" href="{%static 'website/css/owl.carousel.min.css'%}">
+    <link rel="stylesheet" href="{%static 'website/css/animate.min.css'%}">
+    <link rel="stylesheet" href="{%static 'website/css/quill.snow.css'%}">   
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{%static 'website/css/style.css'%}">     
+  </head>
+  <body id="top">
+
+    <div id="overlayer"></div>
+    <div class="loader">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div class="site-wrap">
+
+      <!-- Rest of your HTML content -->
+      {% block template %}
+      {% endblock %}
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="{%static 'website/js/jquery.min.js'%}"></script>
+    <script src="{%static 'website/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{%static 'website/js/isotope.pkgd.min.js'%}"></script>
+    <script src="{%static 'website/js/stickyfill.min.js'%}"></script>
+    <script src="{%static 'website/js/jquery.fancybox.min.js'%}"></script>
+    <script src="{%static 'website/js/jquery.easing.1.3.js'%}"></script>
+    <script src="{%static 'website/js/quill.min.js'%}"></script>
+
+    <script src="{%static 'website/js/jquery.waypoints.min.js'%}"></script>
+    <script src="{%static 'website/js/jquery.animateNumber.min.js'%}"></script>
+    <script src="{%static 'website/js/owl.carousel.min.js'%}"></script>
+
+    <script src="{%static 'website/js/bootstrap-select.min.js'%}"></script>
+
+    <script src="{%static 'website/js/custom.js'%}"></script>
+
+  </body>
+</html>

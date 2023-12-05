@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CreateUserForm
 from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -53,3 +54,7 @@ def signup(request):
         form = CreateUserForm()
 
     return render(request, 'signup.html', {'form': form})
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
