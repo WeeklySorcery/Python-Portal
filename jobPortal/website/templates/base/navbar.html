@@ -28,14 +28,17 @@
                     <li><a href="gallery.html">Gallery</a></li>
                   </ul>
                 </li>
-                <li><a href="blog.html">Blog</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Post a Job</a></li>
                 <li class="d-lg-none">
                   {% if user.is_authenticated %}
                       <a href="{% url 'profile' %}">Profile</a>
                   {% else %}
                       <a href="{% url 'login' %}">Log In</a>
+                  {% endif %}
+                </li>
+                <li class="d-lg-none">
+                  {% if user.is_authenticated %}
+                      <a href="{% url 'user-logout' %}">Sign out</a>
                   {% endif %}
                 </li>
               </ul>
@@ -44,15 +47,22 @@
             <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
               <div class="ml-auto">
                   {% if user.is_authenticated %}
-                      <a href="#" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
-                      <a href="{% url 'profile' %}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-user"></span>Profile</a>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-primary border-width-2 d-none d-lg-inline-block dropdown-toggle" data-toggle="dropdown">
+                              <span class="mr-2 icon-user"></span>Profile
+                          </button>
+                          <div class="dropdown-menu">
+                              <a class="dropdown-item" href="{% url 'profile' %}">Go to Profile</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'user-logout' %}">Logout</a>
+                          </div>
+                      </div>
                   {% else %}
-                      <a href="#" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
                       <a href="{% url 'login' %}" class="btn btn-primary border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-lock_outline"></span>Log In</a>
                   {% endif %}
+                  <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
               </div>
-              <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
-          </div>
+            </div>
           
   
           </div>
