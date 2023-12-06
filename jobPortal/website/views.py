@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CreateUserForm
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 
 
@@ -63,5 +63,6 @@ def user_logout(request):
     return redirect('home')
 
 @login_required
-def profile(request):
-    return render(request, 'profile.html')
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
+    return render(request, 'profile.html', {'user': user})
