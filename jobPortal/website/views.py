@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CreateUserForm
 from django.contrib.auth.models import Group
@@ -54,6 +54,12 @@ def signup(request):
         form = CreateUserForm()
 
     return render(request, 'signup.html', {'form': form})
+
+def user_logout(request):
+    # Log the user out
+    logout(request)
+    # Redirect to the home page or any other desired page
+    return redirect('home')
 
 @login_required
 def profile(request):
