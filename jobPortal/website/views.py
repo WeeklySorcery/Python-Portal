@@ -66,7 +66,9 @@ def user_logout(request):
 
 @login_required
 def profile(request, username):
-    user_profile = request.user.userprofile
+    # Get the user based on the username in the URL
+    user = get_object_or_404(User, username=username)
+    user_profile = user.userprofile
 
     if request.method == 'POST':
         form = UserProfileEditForm(request.POST, request.FILES, instance=user_profile)
@@ -76,4 +78,5 @@ def profile(request, username):
     else:
         form = UserProfileEditForm(instance=user_profile)
 
-    return render(request, 'profile.html', {'form': form})
+    # Pass both the user and the form to the template
+    return render(request, 'profile.html', {'user': user, 'form': form})
