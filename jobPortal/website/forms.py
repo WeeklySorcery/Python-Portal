@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import UserProfile
 
 
 class CreateUserForm(UserCreationForm):
@@ -28,3 +29,9 @@ class CreateUserForm(UserCreationForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError('The passwords do not match. Please enter the same password in both fields.')
         return password2
+
+class UserProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['phone_number', 'address', 'gender']
+        # Add other fields as needed

@@ -4,6 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CreateUserForm
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
+from .forms import UserProfileEditForm
+from django.views import View
 
 
 # Create your views here.
@@ -64,5 +66,14 @@ def user_logout(request):
 
 @login_required
 def profile(request, username):
-    user = get_object_or_404(User, username=username)
-    return render(request, 'profile.html', {'user': user})
+    user_profile = request.user.userprofile
+
+    if request.method == 'POST':
+        form = UserProfileEditForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile',username=username)  # Redirect to the profile page after saving
+    else:
+        form = UserProfileEditForm(instance=user_profile)
+
+    return render(request, 'profile.html', {'form': form})
