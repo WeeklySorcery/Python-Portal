@@ -13,3 +13,13 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Employer(models.Model):
+    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='employer')
+    company_name = models.CharField(max_length=255)
+    company_address = models.CharField(max_length=255)
+    company_email = models.EmailField()
+    contact_number = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.user_profile.user.username
