@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CreateUserForm
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
-from .forms import UserProfileEditForm
+from .forms import UserProfileEditForm, EmployerEditForm
 from django.views import View
 from .models import UserProfile  # Import your UserProfile model
 from django.db import IntegrityError
@@ -93,4 +93,15 @@ def company_profile(request):
         # Handle the case where the Employer profile doesn't exist
         employer = None
 
-    return render(request, 'company_profile.html', {'employer': employer})
+    if request.method == 'POST':
+        # Handle form submission
+        form = EmployerEditForm(request.POST, request.FILES, instance=employer)
+        if form.is_valid():
+            form.save()
+            # Redirect to the same view or another page after successful form submission
+            return redirect('company_profile')
+    else:
+        # Display the form with current employer profile details for GET requests
+        form = EmployerEditForm(instance=employer)
+
+    return render(request, 'company_profile.html', {'employer': employer, 'form': form})

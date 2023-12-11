@@ -10,14 +10,14 @@
         </div>
         <div class="modal-body">
           <!-- Add your form fields for editing employer profile details here -->
-          <form method="post" action="#" enctype="multipart/form-data">
+          <form method="post" action="{% url 'company_profile'%}" enctype="multipart/form-data">
             {% csrf_token %}
   
             <!-- Company Logo -->
             <div class="form-group">
               <label for="id_company_logo">Company Logo</label>
               {% if employer.user_profile and employer.user_profile.profile_pic %}
-                  <img src="{{ employer.user_profile.profile_pic.url }}" alt="{{ employer.company_name }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+                  <img src="{{ employer.company_logo.url }}" alt="{{ employer.company_name }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
               {% else %}
                   <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="{{ employer.company_name }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
               {% endif %}
