@@ -6,7 +6,8 @@ from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileEditForm
 from django.views import View
-
+from .models import UserProfile  # Import your UserProfile model
+from django.db import IntegrityError
 
 # Create your views here.
 def home(request):
@@ -33,7 +34,7 @@ def signup(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            
+
             # Set the username to the user's email
             user.username = user.email
 
@@ -45,6 +46,13 @@ def signup(request):
 
             # Get or create the group
             group, created = Group.objects.get_or_create(name=user_group)
+
+            # Try to create a UserProfile, handling IntegrityError if it already exists
+            try:
+                user_profile = UserProfile.objects.create(user=user, user_stat=user_group)
+            except IntegrityError:
+                # UserProfile already exists for this user
+                pass
 
             # Add the user to the group
             group.user_set.add(user)
@@ -66,9 +74,7 @@ def user_logout(request):
 
 @login_required
 def profile(request, username):
-    # Get the user based on the username in the URL
-    user = get_object_or_404(User, username=username)
-    user_profile = user.userprofile
+    user_profile = request.user.userprofile
 
     if request.method == 'POST':
         form = UserProfileEditForm(request.POST, request.FILES, instance=user_profile)
@@ -78,5 +84,4 @@ def profile(request, username):
     else:
         form = UserProfileEditForm(instance=user_profile)
 
-    # Pass both the user and the form to the template
-    return render(request, 'profile.html', {'user': user, 'form': form})
+    return render(request, 'profile.html', {'form': form})

@@ -33,5 +33,5 @@ class CreateUserForm(UserCreationForm):
 class UserProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['profile_pic','phone_number', 'address', 'gender', 'educational_attainment']
+        fields = ['profile_pic','phone_number', 'address', 'gender']
         # Add other fields as needed
