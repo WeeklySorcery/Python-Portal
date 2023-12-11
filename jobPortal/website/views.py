@@ -8,6 +8,7 @@ from .forms import UserProfileEditForm
 from django.views import View
 from .models import UserProfile  # Import your UserProfile model
 from django.db import IntegrityError
+from .models import UserProfile, Employer
 
 # Create your views here.
 def home(request):
@@ -34,28 +35,25 @@ def signup(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-
+            
             # Set the username to the user's email
             user.username = user.email
-
+            
             # Save the user
             user.save()
 
             # Determine the group based on the selected option in the form
             user_group = form.cleaned_data['user_stat']
-
+            
             # Get or create the group
             group, created = Group.objects.get_or_create(name=user_group)
-
-            # Try to create a UserProfile, handling IntegrityError if it already exists
-            try:
-                user_profile = UserProfile.objects.create(user=user, user_stat=user_group)
-            except IntegrityError:
-                # UserProfile already exists for this user
-                pass
-
+            
             # Add the user to the group
             group.user_set.add(user)
+
+            # Create UserProfile and Employer
+            user_profile = UserProfile.objects.create(user=user, user_stat=user_group)
+            employer = Employer.objects.create(user_profile=user_profile, company_name="Default Name", company_address="Default Address", company_email="default@example.com", contact_number="123456789")
 
             # Log the user in
             auth_login(request, user)
