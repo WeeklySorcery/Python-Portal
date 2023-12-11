@@ -29,68 +29,69 @@
                 </div>
             </div>
 
-<!-- Company Information -->
-<div class="row">
-    <div class="col-md-6">
-        {% if employer %}
-            <div class="card">
-                <div class="row justify-content-center mt-2">
-                {% if employer.company_logo %}
-                <img src="{{ employer.company_logo.url }}" class="card-img-top img-fluid logo-8"alt="Company Logo">
+        <!-- Company Information -->
+        <div class="row">
+            <div class="col-md-6">
+                {% if employer %}
+                    <div class="card">
+                        <div class="row justify-content-center mt-2">
+                        {% if employer.company_logo %}
+                        <img src="{{ employer.company_logo.url }}" class="card-img-top img-fluid logo-8"alt="Company Logo">
+                        {% else %}
+                        <img src="{%static 'website/images/default_logo.png'%}" class="card-img-top img-fluid logo-8"alt="Company Logo">
+                        {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-center mt-2">
+                                <h5 class="card-title">{{ employer.company_name }}</h5>
+                            </div>
+                            <div class="row justify-content-center mt-2">
+                                <p class="card-text mb-2">{{ employer.company_address }}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <strong>Email:</strong> {{ employer.company_email }}
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Contact Number:</strong> {{ employer.contact_number }}
+                                </li>
+                            </ul>
+                            {% if user == request.user %}
+                            <!-- Show the edit icon only for the owner of the profile -->
+                            <div class="mt-2 align-items-center text-center">
+                                <a href="#" data-toggle="modal" data-target="#editEmployerProfileModal" class="btn btn-primary text-center">
+                                <i class="mr-2 icon-pencil"></i> Edit
+                                </a>
+                            </div>
+                            {% endif %}
+                            <!-- Additional fields from the Employer model can be displayed here -->
+                        </div>
+                    </div>
                 {% else %}
-                <img src="{%static 'website/images/default_logo.png'%}" class="card-img-top img-fluid logo-8"alt="Company Logo">
+                    <p>No company profile found.</p>
                 {% endif %}
-                </div>
-                <div class="card-body">
-                    <div class="row justify-content-center mt-2">
-                        <h5 class="card-title">{{ employer.company_name }}</h5>
-                    </div>
-                    <div class="row justify-content-center mt-2">
-                        <p class="card-text mb-2">{{ employer.company_address }}</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <strong>Email:</strong> {{ employer.company_email }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Contact Number:</strong> {{ employer.contact_number }}
-                        </li>
-                    </ul>
-                    {% if user == request.user %}
-                    <!-- Show the edit icon only for the owner of the profile -->
-                    <div class="mt-2 align-items-center text-center">
-                        <a href="#" data-toggle="modal" data-target="#editCompanyModal" class="btn btn-primary text-center">
-                        <i class="mr-2 icon-pencil"></i> Edit
-                        </a>
-                    </div>
-                    {% endif %}
-                    <!-- Additional fields from the Employer model can be displayed here -->
-                </div>
             </div>
-        {% else %}
-            <p>No company profile found.</p>
-        {% endif %}
-    </div>
-    <div class="col-md-6">
-        {% if employer %}
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="row justify-content-center mt-2">
-                        <h4 class="card-title">{{ employer.company_name }}</h5>
+            <div class="col-md-6">
+                {% if employer %}
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="row justify-content-center mt-2">
+                                <h4 class="card-title">{{ employer.company_name }}</h5>
+                            </div>
+                            <div class="row justify-content-center mt-2">
+                                <p class="card-text mb-2 p-2">{{ employer.company_desc }}</p>
+                            </div>
+                            <!-- Additional fields from the Employer model can be displayed here -->
+                        </div>
                     </div>
-                    <div class="row justify-content-center mt-2">
-                        <p class="card-text mb-2 p-2">{{ employer.company_desc }}</p>
-                    </div>
-                    <!-- Additional fields from the Employer model can be displayed here -->
-                </div>
+                {% else %}
+                    <p>No company profile found.</p>
+                {% endif %}
             </div>
-        {% else %}
-            <p>No company profile found.</p>
-        {% endif %}
-    </div>
-</div>
+        </div>
         </div>
     </section>
+    {% include "base/company_profile_form.html" %}
 
 {% include "base/footer.html" %}
 {% endblock %}
