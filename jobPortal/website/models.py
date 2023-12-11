@@ -20,6 +20,9 @@ class Employer(models.Model):
     company_address = models.CharField(max_length=255)
     company_email = models.EmailField()
     contact_number = models.CharField(max_length=15)
+    company_logo = models.ImageField(upload_to='company_logo/', null=True, blank=True)
+    company_desc = models.CharField(max_length=255, null=True, blank=True)
+    
 
     def __str__(self):
         return self.user_profile.user.username

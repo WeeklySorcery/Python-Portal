@@ -1,0 +1,71 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block template %}
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+    
+
+    <!-- NAVBAR -->
+    {% include "base/navbar.html" %}
+
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('{%static 'website/images/hero_1.jpg'%}');" id="home-section">
+    </section>
+
+    <!-- COMPANY PROFILE -->
+    <section class="site-section" id="company-profile-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-7 text-center">
+                    <h2 class="section-title mb-2">Company Profile</h2>
+                </div>
+            </div>
+
+<!-- Company Information -->
+<div class="row">
+    <div class="col-md-6">
+        {% if employer %}
+            <div class="card">
+                <div class="row justify-content-center mt-2">
+                {% if employer.company_logo %}
+                <img src="{{ employer.company_logo.url }}" class="card-img-top img-fluid logo-8"alt="Company Logo">
+                {% else %}
+                <img src="{%static 'website/images/default_logo.png'%}" class="card-img-top img-fluid logo-8"alt="Company Logo">
+                {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center mt-2">
+                        <h5 class="card-title">{{ employer.company_name }}</h5>
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                        <p class="card-text mb-2">{{ employer.company_address }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Email:</strong> {{ employer.company_email }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Contact Number:</strong> {{ employer.contact_number }}
+                        </li>
+                    </ul>
+                    <!-- Additional fields from the Employer model can be displayed here -->
+                </div>
+            </div>
+        {% else %}
+            <p>No company profile found.</p>
+        {% endif %}
+    </div>
+</div>
+        </div>
+    </section>
+
+{% include "base/footer.html" %}
+{% endblock %}

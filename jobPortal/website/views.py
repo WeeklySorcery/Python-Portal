@@ -83,3 +83,14 @@ def profile(request, username):
         form = UserProfileEditForm(instance=user_profile)
 
     return render(request, 'profile.html', {'form': form})
+
+@login_required
+def company_profile(request):
+    try:
+        # Assuming the user is logged in and there is a corresponding Employer profile
+        employer = Employer.objects.get(user_profile__user=request.user)
+    except Employer.DoesNotExist:
+        # Handle the case where the Employer profile doesn't exist
+        employer = None
+
+    return render(request, 'company_profile.html', {'employer': employer})
