@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -26,3 +27,16 @@ class Employer(models.Model):
 
     def __str__(self):
         return self.user_profile.user.username
+    
+class JobPosting(models.Model):
+    employer = models.ForeignKey(Employer, on_delete=models.CASCADE, related_name='job_postings')
+    job_title = models.CharField(max_length=255)
+    job_description = models.TextField()
+    job_requirements = models.TextField()
+    job_location = models.CharField(max_length=255)
+    salary = models.DecimalField(max_digits=10, decimal_places=2)
+    application_deadline = models.DateField()
+    is_verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.job_title} at {self.employer.company_name}"

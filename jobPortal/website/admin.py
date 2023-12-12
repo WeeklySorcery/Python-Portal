@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employer
+from .models import Employer, JobPosting
 
 # Register your models here.
 from .models import UserProfile
@@ -14,3 +14,4 @@ class EmployerAdmin(admin.ModelAdmin):
 
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Employer, EmployerAdmin)
+admin.site.register(JobPosting)
