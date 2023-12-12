@@ -4,11 +4,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CreateUserForm
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
-from .forms import UserProfileEditForm, EmployerEditForm
+from .forms import UserProfileEditForm, EmployerEditForm, JobPostingForm  
 from django.views import View
-from .models import UserProfile  # Import your UserProfile model
 from django.db import IntegrityError
-from .models import UserProfile, Employer
+from .models import UserProfile, Employer, JobPosting
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -105,3 +105,25 @@ def company_profile(request):
         form = EmployerEditForm(instance=employer)
 
     return render(request, 'company_profile.html', {'employer': employer, 'form': form})
+
+@login_required
+def post_job(request):
+    if request.method == 'POST':
+        form = JobPostingForm(request.POST)
+        if form.is_valid():
+            # Create a new JobPosting instance with the form data
+            job_posting = form.save(commit=False)
+
+            # Set the employer based on the logged-in user
+            job_posting.employer = request.user.userprofile.employer
+
+            # Save the job posting
+            job_posting.save()
+
+            messages.success(request, 'Job posted successfully!')
+            return redirect('post_job')  # Redirect to the same page or another if needed
+    else:
+        # If it's a GET request, create a new form
+        form = JobPostingForm()
+
+    return render(request, 'post_job.html', {'form': form})

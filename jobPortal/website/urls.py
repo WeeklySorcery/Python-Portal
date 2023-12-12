@@ -10,4 +10,5 @@ urlpatterns = [
     path('profile/<str:username>', views.profile, name="profile"),
     path('user-logout/', views.user_logout, name="user-logout"),
     path('company_profile/', views.company_profile, name="company_profile"),
+    path('post_job/', views.post_job, name="post_job"),
 ]

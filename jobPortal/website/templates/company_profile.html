@@ -55,6 +55,23 @@
                                 <li class="list-group-item">
                                     <strong>Contact Number:</strong> {{ employer.contact_number }}
                                 </li>
+                                <li class="list-group-item">
+                                    <!-- Company Desc -->
+                                    <div class="card-body text-center">
+                                        <!-- Collapse Button -->
+                                        <button class="btn btn-info mb-2" type="button" data-toggle="collapse" data-target="#companyDescCollapse" aria-expanded="false" aria-controls="companyDescCollapse">
+                                            Show Company Description
+                                        </button>
+
+                                        <!-- Collapsible Content -->
+                                        <div class="collapse" id="companyDescCollapse">
+                                            <div class="row justify-content-center mt-2">
+                                                <p class="card-text mb-2 p-2">{{ employer.company_desc }}</p>
+                                            </div>
+                                            <!-- Additional fields from the Employer model can be displayed here -->
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                             {% if user == request.user %}
                             <!-- Show the edit icon only for the owner of the profile -->
@@ -63,26 +80,57 @@
                                 <i class="mr-2 icon-pencil"></i> Edit
                                 </a>
                             </div>
+                            <div class="mt-2 align-items-center text-center">
+                                <a href="{% url 'post_job' %}" class="btn btn-primary text-center">
+                                 Post a Job
+                                </a>
+                            </div>
                             {% endif %}
-                            <!-- Additional fields from the Employer model can be displayed here -->
                         </div>
                     </div>
                 {% else %}
                     <p>No company profile found.</p>
                 {% endif %}
             </div>
+
             <div class="col-md-6">
                 {% if employer %}
                     <div class="card">
-                        <div class="card-body text-center">
-                            <div class="row justify-content-center mt-2">
-                                <h4 class="card-title">{{ employer.company_name }}</h5>
+                    <!--JOB POSTED HERE-->
+                    <!-- JOB POSTS -->
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-md-7 text-center">
+                                    <h2 class="section-title mb-2 mt-2">Your Job Posts</h2>
+                                </div>
                             </div>
-                            <div class="row justify-content-center mt-2">
-                                <p class="card-text mb-2 p-2">{{ employer.company_desc }}</p>
+
+                            <div class="row">
+                                {% if employer %}
+                                    {% if employer.job_postings.all %}
+                                        {% for job in employer.job_postings.all %}
+                                            <div class="col-md-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ job.job_title }}</h5>
+                                                        <p class="card-subtitle mb-2 text-muted">{{ job.job_type }}</p>
+                                                        <p class="card-text">{{ job.job_description }}</p>
+                                                        <p class="card-text"><strong>Location:</strong> {{ job.job_location }}</p>
+                                                        <p class="card-text"><strong>Salary:</strong> {{ job.salary }}</p>
+                                                        <!-- Add more fields as needed -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="col-md-12">
+                                            <p>No job posts found.</p>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
                             </div>
-                            <!-- Additional fields from the Employer model can be displayed here -->
                         </div>
+                    <!--END OF JOB POSTED-->
                     </div>
                 {% else %}
                     <p>No company profile found.</p>

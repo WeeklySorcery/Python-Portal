@@ -29,13 +29,20 @@ class Employer(models.Model):
         return self.user_profile.user.username
     
 class JobPosting(models.Model):
+    JOB_TYPE_CHOICES = [
+    ('full_time', 'Full Time'),
+    ('freelancer', 'Freelancer'),
+    ('part_time', 'Part Time'),
+    ('intern', 'Intern'),
+    ]
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE, related_name='job_postings')
     job_title = models.CharField(max_length=255)
     job_description = models.TextField()
     job_requirements = models.TextField()
     job_location = models.CharField(max_length=255)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
-    application_deadline = models.DateField()
+    job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default='full_time')
+    application_deadline = models.DateField(null=True, blank=True)
     is_verified = models.BooleanField(default=False)
 
     def __str__(self):

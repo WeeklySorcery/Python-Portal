@@ -1,0 +1,106 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block template %}
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+    
+    {% include "base/navbar.html" %}
+
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('{% static 'website/images/hero_1.jpg' %}');" id="home-section">
+        <div class="container">
+            <div class="row">
+              <div class="col-md-7">
+                <h1 class="text-white font-weight-bold">Post a Job</h1>
+                <div class="custom-breadcrumbs">
+                  <a href="{% url 'home' %}">Home</a> <span class="mx-2 slash">/</span>
+                  <span class="text-white"><strong>Post Job</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+    </section>
+
+    <!-- JOB POST FORM -->
+    <section class="site-section" id="post-job-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-7 text-center">
+                    <h2 class="section-title mb-2">Post a Job</h2>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <form method="post" action="{% url 'post_job' %}">
+                        {% csrf_token %}
+                        
+                        <!-- Employer (Hidden Input Field) -->
+                        <input type="hidden" name="employer" value="{{ user.userprofile.employer.id }}">
+
+                        <!-- Job Title -->
+                        <div class="form-group">
+                            <label for="id_job_title">Job Title</label>
+                            <input type="text" name="job_title" class="form-control" id="id_job_title" required>
+                        </div>
+
+                        <!-- Job Description -->
+                        <div class="form-group">
+                            <label for="id_job_description">Job Description</label>
+                            <textarea name="job_description" class="form-control" id="id_job_description" rows="5" required></textarea>
+                        </div>
+
+                        <!-- Job Requirements -->
+                        <div class="form-group">
+                            <label for="id_job_requirements">Job Requirements</label>
+                            <textarea name="job_requirements" class="form-control" id="id_job_requirements" rows="5" required></textarea>
+                        </div>
+
+                        <!-- Job Type -->
+                        <div class="form-group">
+                            <label for="id_job_type">Job Type</label>
+                            <select name="job_type" class="form-control" id="id_job_type" required>
+                                <option value="full_time">Full Time</option>
+                                <option value="freelancer">Freelancer</option>
+                                <option value="part_time">Part Time</option>
+                                <option value="intern">Intern</option>
+                            </select>
+                        </div>
+
+                        <!-- Job Location -->
+                        <div class="form-group">
+                            <label for="id_job_location">Job Location</label>
+                            <input type="text" name="job_location" class="form-control" id="id_job_location" required>
+                        </div>
+
+                        <!-- Salary -->
+                        <div class="form-group">
+                            <label for="id_salary">Salary</label>
+                            <input type="number" name="salary" class="form-control" id="id_salary" required>
+                        </div>
+
+                        <!-- Application Deadline -->
+                        <div class="form-group">
+                            <label for="id_application_deadline">Application Deadline (Optional)</label>
+                            <input type="date" name="application_deadline" class="form-control" id="id_application_deadline">
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Post Job</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include "base/footer.html" %}
+{% endblock %}
