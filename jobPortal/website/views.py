@@ -51,10 +51,13 @@ def signup(request):
             # Add the user to the group
             group.user_set.add(user)
 
-            # Create UserProfile and Employer
+            # Create UserProfile
             user_profile = UserProfile.objects.create(user=user, user_stat=user_group)
-            employer = Employer.objects.create(user_profile=user_profile, company_name="Default Name", company_address="Default Address", company_email="default@example.com", contact_number="123456789")
 
+            # Create Employer if the user is an employer
+            if user_group == 'employer':
+                employer = Employer.objects.create(user_profile=user_profile, company_name="Default Name", company_address="Default Address", company_email="default@example.com", contact_number="123456789")
+                
             # Log the user in
             auth_login(request, user)
 
