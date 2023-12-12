@@ -105,18 +105,18 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" style="max-height: 600px; overflow-y: auto;">
                                 {% if employer %}
                                     {% if employer.job_postings.all %}
                                         {% for job in employer.job_postings.all %}
                                             <div class="col-md-12">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">{{ job.job_title }}</h5>
-                                                        <p class="card-subtitle mb-2 text-muted">{{ job.job_type }}</p>
+                                                <div class="card mt-2">
+                                                    <div class="card-body ">
+                                                        <h4 class="card-title text-dark fw-bold">{{ job.job_title }}</h4>
+                                                        <p class="card-subtitle mb-2 text-info">{{ job.get_job_type_display }}</p>
                                                         <p class="card-text">{{ job.job_description }}</p>
                                                         <p class="card-text"><strong>Location:</strong> {{ job.job_location }}</p>
-                                                        <p class="card-text"><strong>Salary:</strong> {{ job.salary }}</p>
+                                                        <p class="card-text"><strong class="text-success">Salary:</strong> {{ job.salary }}</p>
                                                         <!-- Add more fields as needed -->
                                                     </div>
                                                 </div>

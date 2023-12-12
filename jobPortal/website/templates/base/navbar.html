@@ -8,13 +8,17 @@
               <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
                 <li><a href="{% url 'home' %}" class="nav-link active">Home</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
+                {% if user.userprofile.user_stat == 'employer' %}
                 <li class="has-children">
                   <a href="job-listings.html">Job Listings</a>
                   <ul class="dropdown">
                     <li><a href="job-single.html">Job Single</a></li>
-                    <li><a href="post-job.html">Post a Job</a></li>
+                    <li><a href="{% url 'post_job'%}">Post a Job</a></li>
                   </ul>
                 </li>
+                {% else %}
+                <li><a href="job-single.html">Job Single</a></li>
+                {% endif %}
                 <li class="has-children">
                   <a href="services.html">Pages</a>
                   <ul class="dropdown">
@@ -54,6 +58,11 @@
                           <div class="dropdown-menu">
                               <a class="dropdown-item" href="{% url 'profile' username=user.username %}">Go to Profile</a>
                               <div class="dropdown-divider"></div>
+                              <!--Might need a little bit of tweaking-->
+                              {% if user.userprofile.user_stat == 'employer' %}
+                              <a class="dropdown-item" href="{% url 'post_job'%}">Post A Job</a>
+                              <div class="dropdown-divider"></div>
+                              {% endif %}
                               <a class="dropdown-item" href="{% url 'user-logout' %}">Logout</a>
                           </div>
                       </div>
@@ -63,8 +72,6 @@
                   <a href="#" class="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span class="icon-menu h3 m-0 p-0 mt-2"></span></a>
               </div>
             </div>
-          
-  
           </div>
         </div>
       </header>
