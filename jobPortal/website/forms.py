@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile, Employer, JobPosting, UserCV
+from .models import UserProfile, Employer, JobPosting, UserCV, GraduateTracer
 
 
 class CreateUserForm(UserCreationForm):
@@ -52,3 +52,8 @@ class UserCVForm(forms.ModelForm):
     class Meta:
         model = UserCV
         fields = ['resume']
+
+class GraduateTracerForm(forms.ModelForm):
+    class Meta:
+        model = GraduateTracer
+        exclude = ['user']  # Exclude the 'user' field from the form, as it will be set in the view

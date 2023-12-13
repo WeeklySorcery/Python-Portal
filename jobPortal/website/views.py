@@ -4,10 +4,10 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CreateUserForm, UserCVForm
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
-from .forms import UserProfileEditForm, EmployerEditForm, JobPostingForm  
+from .forms import UserProfileEditForm, EmployerEditForm, JobPostingForm, GraduateTracerForm
 from django.views import View
 from django.db import IntegrityError
-from .models import UserProfile, Employer, JobPosting, UserCV
+from .models import UserProfile, Employer, JobPosting, UserCV, GraduateTracer
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.contrib.admin.views.decorators import staff_member_required
@@ -241,5 +241,18 @@ def view_applications(request, job_post_id):
     # Add logic to retrieve and display job applications
     return render(request, 'view_applications.html', {'job_posting': job_posting})
 
+@login_required
 def graduate_tracer(request):
-    return render(request, 'graduate_tracer.html', {})
+    existing_record = GraduateTracer.objects.filter(user=request.user).first()
+
+    if request.method == 'POST':
+        form = GraduateTracerForm(request.POST, instance=existing_record)
+        if form.is_valid():
+            graduate_tracer_instance = form.save(commit=False)
+            graduate_tracer_instance.user = request.user
+            graduate_tracer_instance.save()
+            return redirect('profile', username=request.user)
+    else:
+        form = GraduateTracerForm(instance=existing_record)
+
+    return render(request, 'graduate_tracer.html', {'form': form})
