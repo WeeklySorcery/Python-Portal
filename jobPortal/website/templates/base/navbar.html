@@ -19,15 +19,6 @@
                 {% else %}
                 <li><a href="{% url 'job_find' %}">Job Find</a></li>
                 {% endif %}
-                <li class="has-children">
-                  <a href="services.html">Pages</a>
-                  <ul class="dropdown">
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="service-single.html">Service Single</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                  </ul>
-                </li>
                 <li><a href="contact.html">Contact</a></li>
                 <li class="d-lg-none">
                   {% if user.is_authenticated %}

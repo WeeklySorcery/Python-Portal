@@ -322,6 +322,10 @@ def recommend_jobs(request):
 
         job_postings = list(JobPosting.objects.filter(is_verified=True))
 
+        user_count = User.objects.count()
+        job_posting_count = JobPosting.objects.count()
+        employer_count = Employer.objects.count()
+
         # Check if user_skill_description is not None
         if user_skill_description:
             # Check if any job_requirements are not None
@@ -359,6 +363,11 @@ def recommend_jobs(request):
 
     context = {
         'recommended_job_postings': recommended_job_postings,
+        'user_count': user_count,
+        'job_posting_count': job_posting_count,
+        'employer_count': employer_count,
     }
 
     return render(request, 'home.html', context)
+
+
