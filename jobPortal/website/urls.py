@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import profile, delete_job_post, verify_job_post, apply_job
+from .views import profile, delete_job_post, verify_job_post, apply_job, dashboard_tracer, delete_tracer
 
 urlpatterns = [
     path('', views.home, name="home"),
@@ -25,6 +25,9 @@ urlpatterns = [
     path('view_applications/<int:job_post_id>/', views.view_applications, name='view_applications'),
 
     path('graduate_tracer/', views.graduate_tracer, name="graduate_tracer"),
+
+    path('dashboard_tracer/', dashboard_tracer, name='dashboard_tracer'),
+    path('delete_tracer/<str:username>/', delete_tracer, name='delete_tracer'),
 
 
 

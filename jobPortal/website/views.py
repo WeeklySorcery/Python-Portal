@@ -256,3 +256,28 @@ def graduate_tracer(request):
         form = GraduateTracerForm(instance=existing_record)
 
     return render(request, 'graduate_tracer.html', {'form': form})
+
+@login_required
+def dashboard_tracer(request):
+    # Retrieve all GraduateTracer instances
+    graduate_tracers = GraduateTracer.objects.all()
+
+    context = {'graduate_tracers': graduate_tracers}
+    return render(request, 'dashboard_tracer.html', context)
+
+@login_required
+def delete_tracer(request, username):
+    # Ensure the user has the permission to delete
+    if request.user.is_staff:
+        # Retrieve the user associated with the GraduateTracer instance
+        user = get_object_or_404(User, username=username)
+
+        # Delete the GraduateTracer instance associated with the user
+        try:
+            graduate_tracer = GraduateTracer.objects.get(user=user)
+            graduate_tracer.delete()
+            messages.success(request, f'GraduateTracer for {username} has been deleted.')
+        except GraduateTracer.DoesNotExist:
+            messages.error(request, f'GraduateTracer for {username} does not exist.')
+
+    return redirect('dashboard_tracer')

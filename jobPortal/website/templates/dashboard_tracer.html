@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    {% include "base/admin_head.html" %}
+    <body class="sb-nav-fixed">
+        {% include "base/admin_nav.html" %}
+        <div id="layoutSidenav">
+            {% include "base/admin_side.html" %}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <!-- Main Area -->
+                        <h1 class="mt-4">Graduate Tracer</h1>
+
+                        <!-- Bootstrap Table -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">College Department</th>
+                                    <th scope="col">Year Graduated</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for graduate_tracer in graduate_tracers %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ graduate_tracer.user.username }}</td>
+                                        <td>{{ graduate_tracer.college_department }}</td>
+                                        <td>{{ graduate_tracer.year_graduated }}</td>
+                                        <td>
+                                            <!-- Add your delete button or icon -->
+                                            {% csrf_token %}
+                                            <a href="{% url 'delete_tracer' graduate_tracer.user.username %}" class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- End Bootstrap Table -->
+
+                    </div>
+                </main>
+            </div>
+        </div>
+        {% include "base/admin_script.html" %}
+    </body>
+</html>
