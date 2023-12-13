@@ -48,6 +48,11 @@ class JobPosting(models.Model):
     def __str__(self):
         return f"{self.job_title} at {self.employer.company_name}"
     
+    @property
+    def num_applicants(self):
+        return UserCV.objects.filter(job_posting=self).count()
+
+    
 class UserCV(models.Model):
     resume = models.FileField(upload_to='user_cvs/')
     user = models.ForeignKey(User, on_delete=models.CASCADE)

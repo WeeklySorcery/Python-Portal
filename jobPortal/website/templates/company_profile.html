@@ -114,10 +114,16 @@
                                                     <div class="card-body ">
                                                         <h4 class="card-title text-dark fw-bold">{{ job.job_title }}</h4>
                                                         <p class="card-subtitle mb-2 text-info">{{ job.get_job_type_display }}</p>
-                                                        <p class="card-text">{{ job.job_description }}</p>
+                                                        <p class="card-text">{{ job.job_description|slice:":100" }}{% if job.job_description|length > 100 %}...{% endif %}</p>
                                                         <p class="card-text"><strong>Location:</strong> {{ job.job_location }}</p>
                                                         <p class="card-text"><strong class="text-success">Salary:</strong> {{ job.salary }}</p>
                                                         <!-- Add more fields as needed -->
+                                                        <p>{{ job.num_applicants }} applicants</p>
+                                                        <div class="mt-2 align-items-center text-center">
+                                                            <a href="#" class="btn btn-primary text-center">
+                                                             View Applications
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -94,9 +94,11 @@ def company_profile(request):
     try:
         # Assuming the user is logged in and there is a corresponding Employer profile
         employer = Employer.objects.get(user_profile__user=request.user)
+        job_postings = employer.job_postings.all()
     except Employer.DoesNotExist:
         # Handle the case where the Employer profile doesn't exist
         employer = None
+        job_postings = None
 
     if request.method == 'POST':
         # Handle form submission
@@ -109,7 +111,7 @@ def company_profile(request):
         # Display the form with current employer profile details for GET requests
         form = EmployerEditForm(instance=employer)
 
-    return render(request, 'company_profile.html', {'employer': employer, 'form': form})
+    return render(request, 'company_profile.html', {'employer': employer, 'form': form, 'job_postings': job_postings})
 
 @login_required
 def post_job(request):
