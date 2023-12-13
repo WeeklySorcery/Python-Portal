@@ -41,8 +41,13 @@
                                         <td>{{ job_posting.is_verified }}</td>
                                         <td>
                                             <!-- Add your check and delete buttons or icons -->
-                                            <button class="btn btn-success" {% if job_posting.is_verified %}disabled{% endif %}>Verify</button>
-                                            <button class="btn btn-danger">Delete</button>
+                                            {% if user == request.user %}
+                                            {% csrf_token %}
+                                            <a href="{% url 'delete_job_post' job_posting.id %}" class="btn btn-danger">Delete</a>
+                                            {% if not job_posting.is_verified %}
+                                                <a href="{% url 'verify_job_post' job_posting.id %}" class="btn btn-success">Verify</a>
+                                            {% endif %}
+                                            {% endif %}
                                         </td>
                                     </tr>
                                 {% endfor %}

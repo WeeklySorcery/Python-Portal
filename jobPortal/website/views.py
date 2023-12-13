@@ -9,6 +9,8 @@ from django.views import View
 from django.db import IntegrityError
 from .models import UserProfile, Employer, JobPosting
 from django.contrib import messages
+from django.http import HttpResponseForbidden
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
 def home(request):
@@ -137,3 +139,28 @@ def dashboard(request):
 def dashboard_post(request):
     job_postings = JobPosting.objects.all()  # Or apply any filtering you need
     return render(request, 'dashboard_post.html', {'job_postings': job_postings})
+
+@staff_member_required
+def delete_job_post(request, job_post_id):
+    job_post = get_object_or_404(JobPosting, id=job_post_id)
+
+    # Check if the user is a staff member
+    if request.user.is_staff:
+        job_post.delete()
+
+        return redirect('dashboard_post')
+
+    return HttpResponseForbidden("You don't have permission to perform this action.")
+
+@staff_member_required
+def verify_job_post(request, job_post_id):
+    job_post = get_object_or_404(JobPosting, id=job_post_id)
+
+    # Check if the user is a staff member
+    if request.user.is_staff:
+        job_post.is_verified = True
+        job_post.save()
+
+        return redirect('dashboard_post')
+
+    return HttpResponseForbidden("You don't have permission to perform this action.")
