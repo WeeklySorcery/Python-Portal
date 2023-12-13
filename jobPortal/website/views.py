@@ -149,7 +149,19 @@ def post_job(request):
     return render(request, 'post_job.html', {'form': form})
 
 def dashboard(request):
-    return render(request, 'dashboard.html', {})
+    # Get counts from the database
+    user_count = User.objects.count()
+    job_posting_count = JobPosting.objects.count()
+    employer_count = Employer.objects.count()
+
+    # Pass the counts to the template
+    context = {
+        'user_count': user_count,
+        'job_posting_count': job_posting_count,
+        'employer_count': employer_count,
+    }
+
+    return render(request, 'dashboard.html', context)
 
 def dashboard_post(request):
     filter_value = request.GET.get('filter', 'all')

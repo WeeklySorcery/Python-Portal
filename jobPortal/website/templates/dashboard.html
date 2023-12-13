@@ -9,14 +9,134 @@
             {% include "base/admin_side.html" %}
             <div id="layoutSidenav_content">
                 <main>
+                    <!-- Main Area -->
+                    <h1 class="mt-4 p-2">Dashboard</h1>
+                    <!-- End of Main Area -->
                     <div class="container-fluid px-4">
-                        <!--Main Area-->
-                        <h1 class="mt-4">Dashboard</h1>
-                        <!--End of Main Area-->
+                        <!-- Dashboard Stats -->
+                        <div class="row">
+                            <!-- Users Stat -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Users</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ user_count }}</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Jobs Posted Stat -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Jobs Posted</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ job_posting_count }}</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-briefcase fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Employers Stat -->
+                            <div class="col-xl-4 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Employers</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ employer_count }}</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-building fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Dashboard Stats -->
+
+                        <!-- Bar Charts -->
+                        <div class="row">
+                            <!-- Users Bar Chart -->
+                            <div class="col-md-6">
+                                <canvas id="usersBarChart"></canvas>
+                            </div>
+
+                            <!-- Employers Bar Chart -->
+                            <div class="col-md-6">
+                                <canvas id="employersBarChart"></canvas>
+                            </div>
+                        </div>
+                        <!-- End of Bar Charts -->
                     </div>
                 </main>
             </div>
         </div>
         {% include "base/admin_script.html" %}
+
+        <!-- Chart.js CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- Custom script for bar charts -->
+        <script>
+            // Users Bar Chart
+            var usersBarChartCanvas = document.getElementById('usersBarChart').getContext('2d');
+            var usersBarChart = new Chart(usersBarChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: ['Users'],
+                    datasets: [{
+                        label: 'User Count',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        data: [{{ user_count }}]
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Employers Bar Chart
+            var employersBarChartCanvas = document.getElementById('employersBarChart').getContext('2d');
+            var employersBarChart = new Chart(employersBarChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: ['Employers'],
+                    datasets: [{
+                        label: 'Employer Count',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        data: [{{ employer_count }}]
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
     </body>
 </html>
