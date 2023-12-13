@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import CreateUserForm
+from .forms import CreateUserForm, UserCVForm
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileEditForm, EmployerEditForm, JobPostingForm  
 from django.views import View
 from django.db import IntegrityError
-from .models import UserProfile, Employer, JobPosting
+from .models import UserProfile, Employer, JobPosting, UserCV
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.contrib.admin.views.decorators import staff_member_required
@@ -190,6 +190,30 @@ def job_find(request):
 
 def job_info(request, job_post_id):
     job_posting = get_object_or_404(JobPosting, id=job_post_id)
+    user = request.user
+
+    already_applied = False  # Default value, assuming the user is not authenticated
+
+    if user.is_authenticated:
+        already_applied = UserCV.objects.filter(user=user, job_posting=job_posting).exists()
+
     # You can customize the context data based on your needs
-    context = {'job_posting': job_posting}
+    context = {'job_posting': job_posting, 'already_applied': already_applied}
     return render(request, 'job_info.html', context)
+
+def apply_job(request, job_posting_id):
+    job_posting = get_object_or_404(JobPosting, pk=job_posting_id)
+    
+    if request.method == 'POST':
+        form = UserCVForm(request.POST, request.FILES)
+        if form.is_valid():
+            user_cv = form.save(commit=False)
+            user_cv.user = request.user  # Assuming you are using authentication
+            user_cv.job_posting = job_posting
+            user_cv.company_name = job_posting.employer.company_name
+            user_cv.save()
+            return redirect('home')  # Redirect to a success page or another appropriate view
+    else:
+        form = UserCVForm()
+
+    return render(request, 'job_info.html', {'job_posting': job_posting, 'form': form})

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile, Employer, JobPosting
+from .models import UserProfile, Employer, JobPosting, UserCV
 
 
 class CreateUserForm(UserCreationForm):
@@ -47,3 +47,8 @@ class JobPostingForm(forms.ModelForm):
         model = JobPosting
         fields = ['job_title','job_description', 'job_requirements', 'job_location', 'salary', 'application_deadline', 'job_type']
         # Add other fields as needed
+
+class UserCVForm(forms.ModelForm):
+    class Meta:
+        model = UserCV
+        fields = ['resume']

@@ -42,7 +42,11 @@
             <div class="col-lg-4">
             <div class="row">
                 <div class="col-6">
-                <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#applyJobModal">Apply Now</a>
+                  {% if not already_applied %}
+                      <a href="#" class="btn btn-block btn-primary btn-md" data-toggle="modal" data-target="#applyJobModal">Apply Now</a>
+                  {% else %}
+                      <a href="#" class="btn btn-block btn-secondary btn-md">Applied</a>
+                  {% endif %}
                 </div>
             </div>
             </div>
@@ -80,7 +84,7 @@
         </div>
         <div class="modal-body">
           <!-- Add your form fields for editing profile details here -->
-          <form method="post" action="#" enctype="multipart/form-data">
+          <form method="post" action="{% url 'apply_job' job_posting.id %}" enctype="multipart/form-data">
             {% csrf_token %}
 
             <!-- File Upload for CV/Resume -->

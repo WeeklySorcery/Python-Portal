@@ -47,3 +47,12 @@ class JobPosting(models.Model):
 
     def __str__(self):
         return f"{self.job_title} at {self.employer.company_name}"
+    
+class UserCV(models.Model):
+    resume = models.FileField(upload_to='user_cvs/')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    job_posting = models.ForeignKey(JobPosting, on_delete=models.CASCADE)
+    company = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"CV for {self.user.username} - {self.job_posting.job_title} at {self.company}"
