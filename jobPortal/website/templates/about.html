@@ -28,45 +28,35 @@
       </div>
     </section>
 
-    <section class="py-5 bg-image overlay-primary fixed overlay" id="next-section" style="background-image: url('images/hero_1.jpg');">
+    <section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('{%static 'website/images/hero_1.jpg'%}');">
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
-            <h2 class="section-title mb-2 text-white">JobBoard Site Stats</h2>
-            <p class="lead text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita unde officiis recusandae sequi excepturi corrupti.</p>
+            <h2 class="section-title mb-2 text-white">EmployEase Site Stats</h2>
+            <p class="lead text-white">Empower Your Career Journey with EmployEase: Where Opportunities and Expertise Converge.</p>
           </div>
         </div>
         <div class="row pb-0 block__19738 section-counter">
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+          <div class="col-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="1930">0</strong>
+              <strong class="number" data-number="{{ user_count }}">0</strong>
             </div>
-            <span class="caption">Candidates</span>
+            <span class="caption">Users</span>
           </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+    
+          <div class="col-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="54">0</strong>
+              <strong class="number" data-number="{{ job_posting_count }}">0</strong>
             </div>
             <span class="caption">Jobs Posted</span>
           </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+    
+          <div class="col-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="120">0</strong>
+              <strong class="number" data-number="{{ employer_count }}">0</strong>
             </div>
-            <span class="caption">Jobs Filled</span>
+            <span class="caption">Employers</span>
           </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="550">0</strong>
-            </div>
-            <span class="caption">Companies</span>
-          </div>
-
-            
         </div>
       </div>
     </section>
@@ -82,7 +72,7 @@
             </a>
           </div>
           <div class="col-lg-5 ml-auto">
-            <h2 class="section-title mb-3">JobBoard For Freelancers, Web Developers</h2>
+            <h2 class="section-title mb-3">EmployEase For Freelancers, Web Developers</h2>
             <p class="lead">Eveniet voluptatibus voluptates suscipit minima, cum voluptatum ut dolor, sed facere corporis qui, ea quisquam quis odit minus nulla vitae. Sit, voluptatem.</p>
             <p>Ipsum harum assumenda in eum vel eveniet numquam, cumque vero vitae enim cupiditate deserunt eligendi officia modi consectetur. Expedita tempora quos nobis earum hic ex asperiores quisquam optio nostrum sit!</p>
           </div>
@@ -100,7 +90,7 @@
             </a>
           </div>
           <div class="col-lg-5 mr-auto order-md-1  mb-5 mb-lg-0">
-            <h2 class="section-title mb-3">JobBoard For Workers</h2>
+            <h2 class="section-title mb-3">EmployEase For Workers</h2>
             <p class="lead">Eveniet voluptatibus voluptates suscipit minima, cum voluptatum ut dolor, sed facere corporis qui, ea quisquam quis odit minus nulla vitae. Sit, voluptatem.</p>
             <p>Ipsum harum assumenda in eum vel eveniet numquam, cumque vero vitae enim cupiditate deserunt eligendi officia modi consectetur. Expedita tempora quos nobis earum hic ex asperiores quisquam optio nostrum sit!</p>
           </div>

@@ -19,7 +19,18 @@ def home(request):
     return render(request, 'home.html', {})
 
 def about(request):
-    return render(request, 'about.html', {})
+
+    user_count = User.objects.count()
+    job_posting_count = JobPosting.objects.count()
+    employer_count = Employer.objects.count()
+
+    context = {
+        'user_count': user_count,
+        'job_posting_count': job_posting_count,
+        'employer_count': employer_count,
+    }
+
+    return render(request, 'about.html', context)
 
 def login(request):
     if request.method == 'POST':
