@@ -16,11 +16,11 @@
             <!-- Company Logo -->
             <div class="form-group">
               <label for="id_company_logo">Company Logo</label>
-              {% if employer.user_profile and employer.user_profile.profile_pic %}
-                  <img src="{{ employer.company_logo.url }}" alt="{{ employer.company_name }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
-              {% else %}
-                  <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="{{ employer.company_name }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
-              {% endif %}
+              {% if employer.company_logo %}
+              <img src="{{ employer.company_logo.url }}" alt="{{ employer.company_name }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+           {% else %}
+              <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="{{ employer.company_name }}" class="img-thumbnail" style="max-width: 150px; max-height: 150px;">
+           {% endif %}
               <input type="file" name="company_logo" accept="image/*" class="form-control" id="id_company_logo">
               <small class="form-text text-muted">Choose a new company logo or leave it empty to keep the current one.</small>
             </div>

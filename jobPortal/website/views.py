@@ -13,35 +13,10 @@ from django.http import HttpResponseForbidden
 from django.contrib.admin.views.decorators import staff_member_required
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from django.db.models import ObjectDoesNotExist
 
 def home(request):
-    # Your existing logic for getting the user's skill_description
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-    user_skill_description = user_profile.skill_description
-
-    # Your existing logic for getting job_postings
-    job_postings = JobPosting.objects.filter(is_verified=True)
-
-    # Calculate TF-IDF vectors for skill_description and job_requirements
-    documents = [user_skill_description] + [job.job_requirements for job in job_postings]
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(documents)
-
-    # Calculate cosine similarity between user's skill_description and job_requirements
-    similarity_scores = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
-
-    # Get the indices of job postings sorted by similarity (descending order)
-    recommended_job_indices = similarity_scores.argsort()[0][::-1]
-
-    # Get the recommended job postings
-    recommended_job_postings = [job_postings[int(index) - 1] for index in recommended_job_indices if int(index) > 0]
-
-    context = {
-        'recommended_job_postings': recommended_job_postings,
-    }
-
-    return render(request, 'home.html', context)
+    return render(request, 'home.html', {})
 
 def about(request):
     return render(request, 'about.html', {})
@@ -340,38 +315,47 @@ class SearchJobsView(View):
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def recommend_jobs(request):
-    # Your existing logic for getting the user's skill_description
-    user = request.user
-    user_profile = UserProfile.objects.get(user=user)
-    user_skill_description = user_profile.skill_description
-
-    # Your existing logic for getting job_postings
-    job_postings = JobPosting.objects.filter(is_verified=True)
-
-    # Calculate TF-IDF vectors for skill_description and job_requirements
-    documents = [user_skill_description] + [job.job_requirements for job in job_postings]
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(documents)
-
-    # Calculate cosine similarity between user's skill_description and job_requirements
-    similarity_scores = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
-
-    # Get the indices of job postings sorted by similarity (descending order)
-    recommended_job_indices = similarity_scores.argsort()[0][::-1]
-
-    # Get the recommended job postings
-    recommended_job_postings = [job_postings[int(index)] for index in recommended_job_indices]
-
-    # Paginate the recommended job postings
-    page = request.GET.get('page', 1)
-    paginator = Paginator(recommended_job_postings, 10)  # Show 5 jobs per page
-
     try:
-        recommended_job_postings = paginator.page(page)
-    except PageNotAnInteger:
-        recommended_job_postings = paginator.page(1)
-    except EmptyPage:
-        recommended_job_postings = paginator.page(paginator.num_pages)
+        user_id = request.user.id
+        user_profile = UserProfile.objects.get(user=user_id)
+        user_skill_description = user_profile.skill_description
+
+        job_postings = list(JobPosting.objects.filter(is_verified=True))
+
+        # Check if user_skill_description is not None
+        if user_skill_description:
+            # Check if any job_requirements are not None
+            job_requirements_list = [job.job_requirements for job in job_postings if job.job_requirements]
+
+            # Check if there are any job_requirements before vectorization
+            if job_requirements_list:
+                # Calculate TF-IDF vectors for skill_description and job_requirements
+                documents = [user_skill_description] + job_requirements_list
+                vectorizer = TfidfVectorizer()
+                tfidf_matrix = vectorizer.fit_transform(documents)
+
+                # Calculate cosine similarity between user's skill_description and job_requirements
+                similarity_scores = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
+
+                # Get the indices of job postings sorted by similarity (descending order)
+                recommended_job_indices = similarity_scores.argsort()[0][::-1]
+
+                # Filter out indices that are out of range
+                valid_indices = [index for index in recommended_job_indices if 0 <= index < len(job_postings)]
+
+                # Get the recommended job postings
+                recommended_job_postings = [job_postings[index] for index in valid_indices]
+
+            else:
+                recommended_job_postings = []
+
+        else:
+            recommended_job_postings = []
+
+    except ObjectDoesNotExist:
+        # Handle the case where the UserProfile does not exist
+        # You can also set recommended_job_postings to an empty list or provide default recommendations
+        recommended_job_postings = []
 
     context = {
         'recommended_job_postings': recommended_job_postings,
