@@ -179,6 +179,22 @@ def verify_job_post(request, job_post_id):
 
     return HttpResponseForbidden("You don't have permission to perform this action.")
 
+@login_required
+def dashboard_users(request):
+    users = User.objects.all().exclude(username=request.user.username)  # Exclude the currently logged-in user
+    return render(request, 'dashboard_users.html', {'users': users})
+
+@login_required
+def delete_user(request, username):
+    user = get_object_or_404(User, username=username)
+    
+    if request.method == 'POST':
+        # Perform the deletion logic here
+        user.delete()
+        return redirect('dashboard_users')
+    
+    return render(request, 'confirm_delete_user.html', {'user': user})
+
 
 def job_find(request):
     # Fetch only verified job postings

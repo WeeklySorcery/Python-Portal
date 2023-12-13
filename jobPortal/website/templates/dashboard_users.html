@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    {% include "base/admin_head.html" %}
+    <body class="sb-nav-fixed">
+        {% include "base/admin_nav.html" %}
+        <div id="layoutSidenav">
+            {% include "base/admin_side.html" %}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <!-- Main Area -->
+                        <h1 class="mt-4">Users</h1>
+
+                        <!-- Bootstrap Table -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.first_name }}</td>
+                                        <td>{{ user.last_name }}</td>
+                                        <td>
+                                            <!-- Add your delete button or icon -->
+                                            {% if user != request.user %}
+                                                {% csrf_token %}
+                                                <a href="{% url 'delete_user' user.username %}" class="btn btn-danger">Delete</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- End Bootstrap Table -->
+
+                    </div>
+                </main>
+            </div>
+        </div>
+        {% include "base/admin_script.html" %}
+    </body>
+</html>

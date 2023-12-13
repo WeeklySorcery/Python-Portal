@@ -57,7 +57,37 @@
                 </div>
 
                 <!--Table-->
+                <!--Table-->
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="section-title mb-2 mt-2">Applicants</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Resume</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in job_posting.usercv_set.all %}
+                    <tr>
+                        {% comment %} <td><a href="{% url 'profile' application.user.username %}" target="_blank">{{ application.user.get_full_name }}</a></td> {% endcomment %}
+                        <td>{{ application.user.get_full_name }}</td>
+                        <td>{{ application.user.username }}</td>
+                        <td>
+                            <a href="{{ application.resume.url }}" target="_blank">View CV</a>
+                        </td>
+                        <td>
+                            <button class="btn btn-success">Accept</button>
+                            <button class="btn btn-danger" >Reject</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
-    {% include "base/footer.html" %}
 {% endblock %}

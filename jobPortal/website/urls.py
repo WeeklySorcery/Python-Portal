@@ -13,6 +13,9 @@ urlpatterns = [
     path('post_job/', views.post_job, name="post_job"),
     path('dashboard/', views.dashboard, name="dashboard"),
     path('dashboard_post/', views.dashboard_post, name="dashboard_post"),
+    path('dashboard/users/', views.dashboard_users, name='dashboard_users'),
+    path('dashboard/users/delete/<str:username>/', views.delete_user, name='delete_user'),
+
     path('delete_job_post/<int:job_post_id>/', delete_job_post, name='delete_job_post'),
     path('verify_job_post/<int:job_post_id>/', verify_job_post, name='verify_job_post'),
     path('job_find/', views.job_find, name="job_find"),
