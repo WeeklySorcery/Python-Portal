@@ -130,3 +130,6 @@ def post_job(request):
         form = JobPostingForm()
 
     return render(request, 'post_job.html', {'form': form})
+
+def dashboard(request):
+    return render(request, 'dashboard.html', {})
