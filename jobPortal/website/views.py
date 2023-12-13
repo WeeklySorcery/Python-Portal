@@ -137,8 +137,20 @@ def dashboard(request):
     return render(request, 'dashboard.html', {})
 
 def dashboard_post(request):
-    job_postings = JobPosting.objects.all()  # Or apply any filtering you need
-    return render(request, 'dashboard_post.html', {'job_postings': job_postings})
+    filter_value = request.GET.get('filter', 'all')
+
+    if filter_value == 'verified':
+        job_postings = JobPosting.objects.filter(is_verified=True)
+    elif filter_value == 'unverified':
+        job_postings = JobPosting.objects.filter(is_verified=False)
+    else:
+        job_postings = JobPosting.objects.all()
+
+    context = {
+        'job_postings': job_postings,
+        'filter': filter_value,
+    }
+    return render(request, 'dashboard_post.html', context)
 
 @staff_member_required
 def delete_job_post(request, job_post_id):
