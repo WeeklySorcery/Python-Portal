@@ -85,23 +85,24 @@
             {% endfor %}
           </ul>
   
-          {% comment %} <div class="row pagination-wrap">
-            <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-              <span>Showing 1-7 Of 22,392 Jobs</span>
-            </div>
-            <div class="col-md-6 text-center text-md-right">
-              <div class="custom-pagination ml-auto">
-                <a href="#" class="prev">Prev</a>
-                <div class="d-inline-block">
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
+              <div class="row pagination-wrap">
+                <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+                    <span>Showing {{ verified_job_postings.start_index }}-{% if verified_job_postings.end_index > verified_job_postings.paginator.count %}{{ verified_job_postings.paginator.count }}{% else %}{{ verified_job_postings.end_index }}{% endif %} Of {{ verified_job_postings.paginator.count }} Jobs</span>
                 </div>
-                <a href="#" class="next">Next</a>
-              </div>
+                <div class="col-md-6 text-center text-md-right">
+                    <div class="custom-pagination ml-auto">
+                        {% if verified_job_postings.has_previous %}
+                            <a href="?page={{ verified_job_postings.previous_page_number }}" class="prev">Prev</a>
+                        {% endif %}
+                        {% for i in verified_job_postings.paginator.page_range %}
+                            <a href="?page={{ i }}" {% if i == verified_job_postings.number %}class="active"{% endif %}>{{ i }}</a>
+                        {% endfor %}
+                        {% if verified_job_postings.has_next %}
+                            <a href="?page={{ verified_job_postings.next_page_number }}" class="next">Next</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-          </div> {% endcomment %}
         </div>
       </section>
 

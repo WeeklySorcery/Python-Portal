@@ -227,6 +227,17 @@ def job_find(request):
     # Fetch only verified job postings
     verified_job_postings = JobPosting.objects.filter(is_verified=True)
 
+    # Paginate the verified job postings
+    page = request.GET.get('page', 1)
+    paginator = Paginator(verified_job_postings, 10)  # Show 5 jobs per page
+
+    try:
+        verified_job_postings = paginator.page(page)
+    except PageNotAnInteger:
+        verified_job_postings = paginator.page(1)
+    except EmptyPage:
+        verified_job_postings = paginator.page(paginator.num_pages)
+
     context = {
         'verified_job_postings': verified_job_postings,
     }
