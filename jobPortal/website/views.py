@@ -133,3 +133,7 @@ def post_job(request):
 
 def dashboard(request):
     return render(request, 'dashboard.html', {})
+
+def dashboard_post(request):
+    job_postings = JobPosting.objects.all()  # Or apply any filtering you need
+    return render(request, 'dashboard_post.html', {'job_postings': job_postings})

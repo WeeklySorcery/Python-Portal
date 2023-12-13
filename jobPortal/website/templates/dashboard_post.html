@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    {% include "base/admin_head.html" %}
+    <body class="sb-nav-fixed">
+        {% include "base/admin_nav.html" %}
+        <div id="layoutSidenav">
+            {% include "base/admin_side.html" %}
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <!-- Main Area -->
+                        <h1 class="mt-4">Job Postings</h1>
+                        
+                        <!-- Bootstrap Table -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Employer</th>
+                                    <th scope="col">Job Title</th>
+                                    <th scope="col">Job Type</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Salary</th>
+                                    <th scope="col">Deadline</th>
+                                    <th scope="col">Verified</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job_posting in job_postings %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ job_posting.employer.company_name }}</td>
+                                        <td>{{ job_posting.job_title }}</td>
+                                        <td>{{ job_posting.get_job_type_display }}</td>
+                                        <td>{{ job_posting.job_location }}</td>
+                                        <td>${{ job_posting.salary }}</td>
+                                        <td>{{ job_posting.application_deadline }}</td>
+                                        <td>{{ job_posting.is_verified }}</td>
+                                        <td>
+                                            <!-- Add your check and delete buttons or icons -->
+                                            <button class="btn btn-success" {% if job_posting.is_verified %}disabled{% endif %}>Verify</button>
+                                            <button class="btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <!-- End Bootstrap Table -->
+
+                    </div>
+                </main>
+            </div>
+        </div>
+        {% include "base/admin_script.html" %}
+    </body>
+</html>
