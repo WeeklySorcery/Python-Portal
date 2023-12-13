@@ -23,10 +23,11 @@
                                 </select>
                                 <button type="submit" class="btn btn-primary mt-2">Apply</button>
                             </form>
+                            <button id="printButton" class="btn btn-primary mt-2">Print as PDF</button>
                         </div>
-                        
+
                         <!-- Bootstrap Table -->
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="jobTable">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -54,11 +55,11 @@
                                         <td>
                                             <!-- Add your check and delete buttons or icons -->
                                             {% if user == request.user %}
-                                            {% csrf_token %}
-                                            <a href="{% url 'delete_job_post' job_posting.id %}" class="btn btn-danger">Delete</a>
-                                            {% if not job_posting.is_verified %}
-                                                <a href="{% url 'verify_job_post' job_posting.id %}" class="btn btn-success">Verify</a>
-                                            {% endif %}
+                                                {% csrf_token %}
+                                                <a href="{% url 'delete_job_post' job_posting.id %}" class="btn btn-danger">Delete</a>
+                                                {% if not job_posting.is_verified %}
+                                                    <a href="{% url 'verify_job_post' job_posting.id %}" class="btn btn-success">Verify</a>
+                                                {% endif %}
                                             {% endif %}
                                         </td>
                                     </tr>
@@ -67,10 +68,41 @@
                         </table>
                         <!-- End Bootstrap Table -->
 
+                        <!-- Print Button -->
                     </div>
                 </main>
             </div>
         </div>
+
+<!-- Include the jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<!-- Include the html2canvas library -->
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<!-- Your existing code here -->
+<script>
+    document.getElementById('printButton').addEventListener('click', function () {
+        // Use html2canvas to capture the table content
+        html2canvas(document.getElementById('jobTable'), { useCORS: true }).then(canvas => {
+            // Convert the captured content to a data URL
+            var imgData = canvas.toDataURL('image/png');
+
+            // Create a PDF document using jsPDF
+            var pdf = new jsPDF('p', 'pt', 'letter');
+
+            // Adjust the size and placement of the image in the PDF
+            var imgWidth = 580; // A4 width in mm
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            
+            // Add an image to the PDF
+            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+
+            // Save or open the PDF (adjust as needed)
+            pdf.save('job_table_report.pdf');
+        });
+    });
+</script>
+
         {% include "base/admin_script.html" %}
     </body>
 </html>

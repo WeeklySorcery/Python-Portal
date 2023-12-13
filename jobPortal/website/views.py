@@ -281,3 +281,6 @@ def delete_tracer(request, username):
             messages.error(request, f'GraduateTracer for {username} does not exist.')
 
     return redirect('dashboard_tracer')
+
+#? Generator
+
