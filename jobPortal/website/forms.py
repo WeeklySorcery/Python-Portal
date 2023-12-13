@@ -33,7 +33,7 @@ class CreateUserForm(UserCreationForm):
 class UserProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['profile_pic','phone_number', 'address', 'gender']
+        fields = ['profile_pic','phone_number', 'address', 'gender', 'skill_description']
         # Add other fields as needed
 
 class EmployerEditForm(forms.ModelForm):

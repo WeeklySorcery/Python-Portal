@@ -11,10 +11,37 @@ from .models import UserProfile, Employer, JobPosting, UserCV, GraduateTracer
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.contrib.admin.views.decorators import staff_member_required
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
-# Create your views here.
 def home(request):
-    return render(request, 'home.html', {})
+    # Your existing logic for getting the user's skill_description
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    user_skill_description = user_profile.skill_description
+
+    # Your existing logic for getting job_postings
+    job_postings = JobPosting.objects.filter(is_verified=True)
+
+    # Calculate TF-IDF vectors for skill_description and job_requirements
+    documents = [user_skill_description] + [job.job_requirements for job in job_postings]
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(documents)
+
+    # Calculate cosine similarity between user's skill_description and job_requirements
+    similarity_scores = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
+
+    # Get the indices of job postings sorted by similarity (descending order)
+    recommended_job_indices = similarity_scores.argsort()[0][::-1]
+
+    # Get the recommended job postings
+    recommended_job_postings = [job_postings[int(index) - 1] for index in recommended_job_indices if int(index) > 0]
+
+    context = {
+        'recommended_job_postings': recommended_job_postings,
+    }
+
+    return render(request, 'home.html', context)
 
 def about(request):
     return render(request, 'about.html', {})
@@ -298,3 +325,32 @@ class SearchJobsView(View):
         }
 
         return render(request, self.template_name, context)
+    
+def recommend_jobs(request):
+    # Your existing logic for getting the user's skill_description
+    user = request.user
+    user_profile = UserProfile.objects.get(user=user)
+    user_skill_description = user_profile.skill_description
+
+    # Your existing logic for getting job_postings
+    job_postings = JobPosting.objects.filter(is_verified=True)
+
+    # Calculate TF-IDF vectors for skill_description and job_requirements
+    documents = [user_skill_description] + [job.job_requirements for job in job_postings]
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(documents)
+
+    # Calculate cosine similarity between user's skill_description and job_requirements
+    similarity_scores = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
+
+    # Get the indices of job postings sorted by similarity (descending order)
+    recommended_job_indices = similarity_scores.argsort()[0][::-1]
+
+    # Get the recommended job postings
+    recommended_job_postings = [job_postings[int(index)] for index in recommended_job_indices]
+
+    context = {
+        'recommended_job_postings': recommended_job_postings,
+    }
+
+    return render(request, 'home.html', context)

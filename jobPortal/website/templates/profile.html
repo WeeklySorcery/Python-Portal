@@ -204,6 +204,12 @@
             <label for="id_address">Address</label>
             <input type="text" name="address" class="form-control" id="id_address" value="{{ user.userprofile.address }}">
           </div>
+
+          <!-- skill description -->
+          <div class="form-group">
+            <label for="skill_description">skill Description</label>
+            <textarea name="skill_description" class="form-control" id="skill_description" value="{{ user.userprofile.skill_description }}">{{ user.userprofile.skill_description }}</textarea>
+          </div>
         
           <!-- Add more form fields as needed -->
         
