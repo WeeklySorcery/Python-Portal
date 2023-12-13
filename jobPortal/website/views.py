@@ -187,3 +187,9 @@ def job_find(request):
     }
 
     return render(request, 'job_find.html', context)
+
+def job_info(request, job_post_id):
+    job_posting = get_object_or_404(JobPosting, id=job_post_id)
+    # You can customize the context data based on your needs
+    context = {'job_posting': job_posting}
+    return render(request, 'job_info.html', context)

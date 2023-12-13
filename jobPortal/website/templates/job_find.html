@@ -41,7 +41,7 @@
           <ul class="job-listings mb-5">
             {% for job_posting in verified_job_postings %}
             <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-              <a href="job-single.html"></a>
+              <a href="{% url 'job_info' job_posting.id %}"></a>
               <div class="job-listing-logo">
                 <img src="{{ job_posting.employer.company_logo.url }}" alt="Image" class="img-fluid">
               </div>
