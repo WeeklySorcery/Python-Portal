@@ -219,3 +219,8 @@ def apply_job(request, job_posting_id):
         form = UserCVForm()
 
     return render(request, 'job_info.html', {'job_posting': job_posting, 'form': form})
+
+def view_applications(request, job_post_id):
+    job_posting = get_object_or_404(JobPosting, id=job_post_id)
+    # Add logic to retrieve and display job applications
+    return render(request, 'view_applications.html', {'job_posting': job_posting})

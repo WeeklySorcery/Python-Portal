@@ -120,7 +120,7 @@
                                                         <!-- Add more fields as needed -->
                                                         <p>{{ job.num_applicants }} applicants</p>
                                                         <div class="mt-2 align-items-center text-center">
-                                                            <a href="#" class="btn btn-primary text-center">
+                                                            <a href="{% url 'view_applications' job.id %}" class="btn btn-primary text-center">
                                                              View Applications
                                                             </a>
                                                         </div>
