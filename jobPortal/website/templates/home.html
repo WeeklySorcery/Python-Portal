@@ -133,24 +133,24 @@
             {% endfor %}
         </ul>
 
-        <div class="row pagination-wrap">
-          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Showing 1-7 Of 43,167 Jobs</span>
-          </div>
-          <div class="col-md-6 text-center text-md-right">
-            <div class="custom-pagination ml-auto">
-              <a href="#" class="prev">Prev</a>
-              <div class="d-inline-block">
-              <a href="#" class="active">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              </div>
-              <a href="#" class="next">Next</a>
+          <div class="row pagination-wrap">
+            <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+                <span>Showing {{ recommended_job_postings.start_index }}-{% if recommended_job_postings.end_index > recommended_job_postings.paginator.count %}{{ recommended_job_postings.paginator.count }}{% else %}{{ recommended_job_postings.end_index }}{% endif %} Of {{ recommended_job_postings.paginator.count }} Jobs</span>
             </div>
-          </div>
+            <div class="col-md-6 text-center text-md-right">
+                <div class="custom-pagination ml-auto">
+                    {% if recommended_job_postings.has_previous %}
+                        <a href="?page={{ recommended_job_postings.previous_page_number }}" class="prev">Prev</a>
+                    {% endif %}
+                    {% for i in recommended_job_postings.paginator.page_range %}
+                        <a href="?page={{ i }}" {% if i == recommended_job_postings.number %}class="active"{% endif %}>{{ i }}</a>
+                    {% endfor %}
+                    {% if recommended_job_postings.has_next %}
+                        <a href="?page={{ recommended_job_postings.next_page_number }}" class="next">Next</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-
       </div>
     </section>
 
@@ -203,5 +203,4 @@
     </section>
 
     {% include "base/footer.html" %}
-
 {% endblock %}

@@ -326,6 +326,8 @@ class SearchJobsView(View):
 
         return render(request, self.template_name, context)
     
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 def recommend_jobs(request):
     # Your existing logic for getting the user's skill_description
     user = request.user
@@ -348,6 +350,17 @@ def recommend_jobs(request):
 
     # Get the recommended job postings
     recommended_job_postings = [job_postings[int(index)] for index in recommended_job_indices]
+
+    # Paginate the recommended job postings
+    page = request.GET.get('page', 1)
+    paginator = Paginator(recommended_job_postings, 10)  # Show 5 jobs per page
+
+    try:
+        recommended_job_postings = paginator.page(page)
+    except PageNotAnInteger:
+        recommended_job_postings = paginator.page(1)
+    except EmptyPage:
+        recommended_job_postings = paginator.page(paginator.num_pages)
 
     context = {
         'recommended_job_postings': recommended_job_postings,
