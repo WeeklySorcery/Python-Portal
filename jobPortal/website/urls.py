@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import profile, delete_job_post, verify_job_post, apply_job, dashboard_tracer, delete_tracer
+from .views import profile, delete_job_post, verify_job_post, apply_job, dashboard_tracer, delete_tracer, SearchJobsView
 
 urlpatterns = [
     path('', views.home, name="home"),
@@ -29,6 +29,6 @@ urlpatterns = [
     path('dashboard_tracer/', dashboard_tracer, name='dashboard_tracer'),
     path('delete_tracer/<str:username>/', delete_tracer, name='delete_tracer'),
 
-
+    path('search/', SearchJobsView.as_view(), name='search_jobs'),
 
 ]

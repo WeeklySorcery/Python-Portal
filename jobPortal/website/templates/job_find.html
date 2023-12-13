@@ -28,6 +28,21 @@
       </div>
     </section>
 
+      <!-- Search Bar -->
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <form method="get" action="{% url 'search_jobs' %}" class="search-form">
+                    <div class="form-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search by position or company name">
+                        <button type="submit" class="btn btn-primary mt-2">Search</button>
+                        <a href="{% url 'job_find' %}" class="btn btn-secondary mt-2">Reset</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+
     <!--Verified Job Postings-->
     <section class="site-section" id="next">
         <div class="container">
@@ -70,7 +85,7 @@
             {% endfor %}
           </ul>
   
-          <div class="row pagination-wrap">
+          {% comment %} <div class="row pagination-wrap">
             <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
               <span>Showing 1-7 Of 22,392 Jobs</span>
             </div>
@@ -86,7 +101,7 @@
                 <a href="#" class="next">Next</a>
               </div>
             </div>
-          </div>
+          </div> {% endcomment %}
         </div>
       </section>
 

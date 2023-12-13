@@ -284,3 +284,17 @@ def delete_tracer(request, username):
 
 #? Generator
 
+class SearchJobsView(View):
+    template_name = 'job_find.html'
+
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('q', '')
+        job_postings = JobPosting.objects.filter(job_title__icontains=query) | \
+                        JobPosting.objects.filter(employer__company_name__icontains=query)
+
+        context = {
+            'verified_job_postings': job_postings,
+            'query': query,
+        }
+
+        return render(request, self.template_name, context)
