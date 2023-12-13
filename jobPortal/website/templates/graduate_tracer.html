@@ -1,0 +1,508 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block template %}
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+    
+    {% include "base/navbar.html" %}
+
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('{%static 'website/images/hero_1.jpg'%}');" id="home-section">
+    </section>
+
+    <section class="site-section">
+    <div class="container-fluid ftco-animate">
+        <div class=" row justify-content-center">
+            <div class="px-4 p-4 bg-white" style="border-radius: 6px">
+                <h4>Graduate Tracer Form</h4>
+
+                <div class="mt-3  gap-1">
+                    <div class="">
+                        <form action="#" method="post" class="d-flex flex-column gap-2" novalidate>
+                            {% csrf_token %}
+                            <h5>College/Department</h5>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >College</label
+                            >
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="college_department"
+                            >
+                                <option selected="">Choose</option>
+                                <option value="College of Information and Communication Technology (CICT)">
+                                    College of Information and Communication Technology
+                                    (CICT)
+                                </option>
+                                <option value="College of Business Administration (CBA)">
+                                    College of Business Administration (CBA)
+                                </option>
+                                <option value="College of Architecture and Fine Arts (CAFA)">
+                                    College of Architecture and Fine Arts (CAFA)
+                                </option>
+                                <option value="College of Arts and Letters (CAL)">
+                                    College of Arts and Letters (CAL)
+                                </option>
+                                <option value="College of Criminal Justice Education (CCJE)">
+                                    College of Criminal Justice Education (CCJE)
+                                </option>
+                                <option value="College of Social Science and Philosophy (CSSP)">
+                                    College of Social Science and Philosophy (CSSP)
+                                </option>
+                                <option value="College of Home Economics (CHE)">
+                                    College of Home Economics (CHE)
+                                </option>
+                                <option value="College of Industrial Technology (CIT)">
+                                    College of Industrial Technology (CIT)
+                                </option>
+                                <option value="College of Nursing (CON)">College of Nursing (CON)</option>
+                                <option value="College of Engineering (COE)">College of Engineering (COE)</option>
+                                <option value="College of Education (COED)">College of Education (COED)</option>
+                                <option value="College of Sports,Exercise and Recreation">
+                                    College of Sports,Exercise and Recreation
+                                </option>
+                                <option value="College of Science (CS)">College of Science (CS)</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Course
+                                <p class="mb-0">Ex: BS Information Technology</p></label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Course"
+                                name="course"
+                            />
+                            <label for="yearGraduated" class="form-label mb-0"
+                                >Year Graduated</label
+                            >
+                            <select
+                                class="form-select"
+                                id="yearGraduated"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="year_graduated"
+                            >
+                                <option selected="">Select Year</option>
+                                <option value="2010">2010</option>
+                                <option value="2011">2011</option>
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                            </select>
+                            <h5>General Information</h5>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Complete Name
+                                <p class="mb-0">(Last Name, First Name MI.)</p></label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Juan Dela Cruz"
+                                name="fullname"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Civil Status</label
+                            >
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="civil_status"
+                            >
+                                <option selected="">Select Status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Widow">Widow</option>
+                                <option value="Other">Other</option>
+                            </select>
+
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Age</label
+                            >
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="age"
+                            >
+                                <option selected="">Select Age</option>
+                                <option value="Below 20">Below 20</option>
+                                <option value="20-25">20-25</option>
+                                <option value="26-30">26-30</option>
+                                <option value="31-35">31-35</option>
+                                <option value="36-40">36-40</option>
+                                <option value="Above 40">Above 40</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Address
+                                <p class="mb-0">
+                                    (Barangay, Municipaliy , City, Province)
+                                </p></label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Address"
+                                name="address"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Gender</label
+                            >
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="gender"
+                            >
+                                <option selected="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Email Address</label
+                            >
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Badong@gmail.com"
+                                name="email"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Contact Number</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="09123451222"
+                                name="contact"
+                            />
+                            <h5>Education Backgroud</h5>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Highest Level of Education</label
+                            >
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="education_level"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Certificate in Two Year Course">Certificate in Two Year Course</option>
+                                <option value="College Graduate">College Graduate</option>
+                                <option value="with Units in Masters Degree">with Units in Masters Degree</option>
+                                <option value="Masters Degree Holder">Masters Degree Holder</option>
+                                <option value="with Doctoral Degree">with Doctoral Degree</option>
+                                <option value="Doctoral Degree Holder">Doctoral Degree Holder</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Are you a recipient of any scholarship program in the
+                                University?
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="scholarship"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Yes, I am a recipient of a GOVERTNMENT scholarship program">
+                                    Yes, I am a recipient of a GOVERTNMENT scholarship program
+                                </option>
+                                <option value="Yes, I am recipient of a PRIVATE scholarship program">
+                                    Yes, I am recipient of a PRIVATE scholarship program
+                                </option>
+                                <option value="No, I am not a recipient of ANY scholarship program">
+                                    No, I am not a recipient of ANY scholarship program
+                                </option>
+                            </select>
+                            <h5>Employment Data</h5>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Are you Presently Employed
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="presently_employed"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="Never">Never</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Reasons for Unemployment
+                                <p class="mb-0">(If Unemployed)</p></label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Ex: No Opportunity available"
+                                name="unemployment_reason"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Employment Status
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="employment_status"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Regular/Permanent">Regular/Permanent</option>
+                                <option value="Contractual">Contractual</option>
+                                <option value="Temporary">Temporary</option>
+                                <option value="Self-Employed">Self-Employed</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Present Occupation
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Ex: FullStack Developer"
+                                name="occupation"
+                            />
+                            <label for="majorLineOfBusiness" class="form-label mb-0"
+                                >Major Line of Business</label
+                            >
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="line_of_business"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Agriculture">Agriculture</option>
+                                <option value="Hunting and Forestry">Hunting and Forestry</option>
+                                <option value="Fishing">Fishing</option>
+                                <option value="Mining">Mining</option>
+                                <option value="Construction">Construction</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                                <option value="Transportation">Transportation</option>
+                                <option value="Communication">Communication</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Education">Education</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Retail">Retail</option>
+                                <option value="Hospitality">Hospitality</option>
+                                <option value="Arts and Entertainment">Arts and Entertainment</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Place of Work
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="work_place"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Local">Local</option>
+                                <option value="Abroad">Abroad</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Is this your First job After College
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="firstjob_after_college"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Reasons for Staying in Job
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Ex: Benefits"
+                                name="reasons_for_staying"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >is First Job Related to course?
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="firstjob_related"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Reasons for Accepting First Job
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Ex: To gain experience"
+                                name="reason_for_accepting"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Reasons for Changing Job
+                                <p class="mb-0">(skip if no)</p>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Ex: Unhealthy Job Environment"
+                                name="reason_for_changing"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Duration in First Job
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="firstjob_duration"
+                            >
+                                <option selected="">Select</option>
+                                <option value="less than a month">less than a month</option>
+                                <option value="1 to 6 months">1 to 6 months</option>
+                                <option value="7 to 11 months">7 to 11 months</option>
+                                <option value="1 year to less than 2 years">1 year to less than 2 years</option>
+                                <option value="2 years to less than 3 years">2 year to less than 3 years</option>
+                                <option value="3 year to less than 4 years">3 year to less than 4 years</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >how did you find your First Job?
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                placeholder="Ex: LinkedIn"
+                                name="find_your_firstjob"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Duration to land first job
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="firstjob_land_duration"
+                            >
+                                <option selected="">Select</option>
+                                <option value="less than a month">less than a month</option>
+                                <option value="1 to 6 months">1 to 6 months</option>
+                                <option value="7 to 11 months">7 to 11 months</option>
+                                <option value="1 year to less than 2 years">1 year to less than 2 years</option>
+                                <option value="2 year to less than 3 years">2 year to less than 3 years</option>
+                                <option value="3 year to less than 4 years">3 year to less than 4 years</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                name="where_you_find_firstjob"
+                                placeholder="Ex: LinkedIn"
+                            />
+                            <label for="formControlInput" class="form-label mb-0"
+                                >Intial Gross Monthly Earning
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="monthly_earning"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Below ₱5,000,00">Below ₱5,000,00</option>
+                                <option value="₱5,000,00 to less than ₱10,000,00">₱5,000,00 to less than ₱10,000,00</option>
+                                <option value="₱10,000,00 to ₱15,000,00">₱10,000,00 to ₱15,000,00</option>
+                                <option value="₱15,000,00 to ₱20,000,00">₱15,000,00 to ₱20,000,00</option>
+                                <option value="₱20,000,00 to ₱25,000,00">₱20,000,00 to ₱25,000,00</option>
+                                <option value="₱25,000,00 to ₱30,000,00">₱25,000,00 to ₱30,000,00</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >is Curriculum Relevant to your First Job
+                            </label>
+                            <select
+                                class="form-select"
+                                aria-label="Default select"
+                                style="padding: 0.4rem 0.75rem"
+                                name="curriculum_relevance_firstjob"
+                            >
+                                <option selected="">Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <label for="formControlInput" class="form-label mb-0"
+                                >What are the competencies Usefull in First Job
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="formControlInput"
+                                name="competencies_usefull_firstjob"
+                                placeholder="Ex: Passion"
+                            />
+                            <div class="d-flex mt-4 gap-3">
+                                <button type="button" class="btn btn-light">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-block btn-primary w-25">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+
+
+{% include "base/footer.html" %}
+{% endblock %}

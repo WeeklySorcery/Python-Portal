@@ -240,3 +240,6 @@ def view_applications(request, job_post_id):
     job_posting = get_object_or_404(JobPosting, id=job_post_id)
     # Add logic to retrieve and display job applications
     return render(request, 'view_applications.html', {'job_posting': job_posting})
+
+def graduate_tracer(request):
+    return render(request, 'graduate_tracer.html', {})

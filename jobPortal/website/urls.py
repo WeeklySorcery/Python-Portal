@@ -24,5 +24,8 @@ urlpatterns = [
 
     path('view_applications/<int:job_post_id>/', views.view_applications, name='view_applications'),
 
+    path('graduate_tracer/', views.graduate_tracer, name="graduate_tracer"),
+
+
 
 ]
