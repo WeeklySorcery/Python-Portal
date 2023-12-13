@@ -1,0 +1,94 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block template %}
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+    
+    {% include "base/navbar.html" %}
+
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('{%static 'website/images/hero_1.jpg'%}');" id="home-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <h1 class="text-white font-weight-bold">Find Jobs</h1>
+            <div class="custom-breadcrumbs">
+              <a href="{% url 'home' %}">Home</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Find Jobs</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Verified Job Postings-->
+    <section class="site-section" id="next">
+        <div class="container">
+  
+          <div class="row mb-5 justify-content-center">
+            <div class="col-md-7 text-center">
+                <h2 class="section-title mb-2">{{ verified_job_postings.count }} Jobs</h2>
+            </div>
+          </div>
+          
+          <ul class="job-listings mb-5">
+            {% for job_posting in verified_job_postings %}
+            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+              <a href="job-single.html"></a>
+              <div class="job-listing-logo">
+                <img src="{{ job_posting.employer.company_logo.url }}" alt="Image" class="img-fluid">
+              </div>
+  
+              <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+                <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                  <h2>{{ job_posting.job_title }}</h2>
+                  <strong>{{ job_posting.employer.company_name }}</strong>
+                </div>
+                <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                  <span class="icon-room"></span> {{ job_posting.job_location }}
+                </div>
+                <div class="job-listing-meta">
+                    {% if job_posting.job_type == 'intern' %}
+                        <span class="badge badge-danger">{{ job_posting.get_job_type_display }}</span>
+                    {% elif job_posting.job_type == 'full_time' %}
+                        <span class="badge badge-success">{{ job_posting.get_job_type_display }}</span>
+                    {% elif job_posting.job_type == 'part_time' %}
+                        <span class="badge badge-primary">{{ job_posting.get_job_type_display }}</span>
+                    {% elif job_posting.job_type == 'freelancer' %}
+                        <span class="badge badge-secondary">{{ job_posting.get_job_type_display }}</span>
+                    {% endif %}
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+  
+          <div class="row pagination-wrap">
+            <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+              <span>Showing 1-7 Of 22,392 Jobs</span>
+            </div>
+            <div class="col-md-6 text-center text-md-right">
+              <div class="custom-pagination ml-auto">
+                <a href="#" class="prev">Prev</a>
+                <div class="d-inline-block">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                </div>
+                <a href="#" class="next">Next</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+{% include "base/footer.html" %}
+{% endblock %}

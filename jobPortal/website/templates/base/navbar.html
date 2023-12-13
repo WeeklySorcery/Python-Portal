@@ -12,12 +12,12 @@
                 <li class="has-children">
                   <a href="job-listings.html">Job Listings</a>
                   <ul class="dropdown">
-                    <li><a href="job-single.html">Job Single</a></li>
+                    <li><a href="{% url 'job_find' %}">Job Find</a></li>
                     <li><a href="{% url 'post_job'%}">Post a Job</a></li>
                   </ul>
                 </li>
                 {% else %}
-                <li><a href="job-single.html">Job Single</a></li>
+                <li><a href="{% url 'job_find' %}">Job Find</a></li>
                 {% endif %}
                 <li class="has-children">
                   <a href="services.html">Pages</a>

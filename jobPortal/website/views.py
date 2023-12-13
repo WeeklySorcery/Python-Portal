@@ -176,3 +176,14 @@ def verify_job_post(request, job_post_id):
         return redirect('dashboard_post')
 
     return HttpResponseForbidden("You don't have permission to perform this action.")
+
+
+def job_find(request):
+    # Fetch only verified job postings
+    verified_job_postings = JobPosting.objects.filter(is_verified=True)
+
+    context = {
+        'verified_job_postings': verified_job_postings,
+    }
+
+    return render(request, 'job_find.html', context)
