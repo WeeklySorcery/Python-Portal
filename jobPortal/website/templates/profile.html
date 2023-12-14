@@ -38,7 +38,7 @@
                           <h4>{{ user.get_full_name }}</h4>
                           <p class="text-secondary mb-1">{{ user.email }}</p>
                           {% if user != request.user %}
-                          <button class="btn btn-primary">Message</button>
+                              <a href="{% url 'send_message' recipient_id=user.id %}" class="btn btn-primary">Message</a>
                           {% endif %}
 
                           {% if user == request.user %}

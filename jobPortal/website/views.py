@@ -7,13 +7,15 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserProfileEditForm, EmployerEditForm, JobPostingForm, GraduateTracerForm
 from django.views import View
 from django.db import IntegrityError
-from .models import UserProfile, Employer, JobPosting, UserCV, GraduateTracer
+from .models import UserProfile, Employer, JobPosting, UserCV, GraduateTracer, Message
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.contrib.admin.views.decorators import staff_member_required
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from django.db.models import ObjectDoesNotExist
+from django.db.models import Q
+
 
 def home(request):
     return render(request, 'home.html', {})
@@ -92,6 +94,8 @@ def user_logout(request):
 def profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
 
+    recipient = user
+
     if request.method == 'POST':
         form = UserProfileEditForm(request.POST, request.FILES, instance=user.userprofile)
         if form.is_valid():
@@ -100,7 +104,7 @@ def profile(request, user_id):
     else:
         form = UserProfileEditForm(instance=user.userprofile)
 
-    return render(request, 'profile.html', {'user': user, 'form': form})
+    return render(request, 'profile.html', {'user': user, 'form': form, 'recipient': recipient})
 
 @login_required
 def company_profile(request):
@@ -404,4 +408,35 @@ def recommend_jobs(request):
 
     return render(request, 'home.html', context)
 
+#Messages
 
+@login_required
+def send_message(request, recipient_id):
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        recipient = User.objects.get(id=recipient_id)
+
+        Message.objects.create(sender=request.user, recipient=recipient, content=content)
+
+    return redirect('inbox', recipient_id=recipient_id)
+
+@login_required
+def inbox(request, recipient_id=None):
+    received_messages = Message.objects.filter(recipient=request.user)
+    sent_messages = Message.objects.filter(sender=request.user)
+
+    # Set the recipient based on the provided recipient_id or the first user in the system
+    recipient = get_object_or_404(User, id=recipient_id) if recipient_id else User.objects.exclude(id=request.user.id).first()
+
+    # Get the conversation messages between the current user and the recipient
+    conversation_messages = Message.objects.filter(
+        Q(sender=request.user, recipient=recipient) | Q(sender=recipient, recipient=request.user)
+    ).order_by('timestamp')
+
+    context = {
+        'received_messages': received_messages,
+        'sent_messages': sent_messages,
+        'recipient': recipient,
+        'conversation_messages': conversation_messages,
+    }
+    return render(request, 'inbox.html', context)

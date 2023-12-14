@@ -1,0 +1,88 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block template %}
+
+<div class="site-mobile-menu site-navbar-target">
+    <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
+      </div>
+    </div>
+    <div class="site-mobile-menu-body"></div>
+  </div> <!-- .site-mobile-menu -->
+  
+
+  <!-- NAVBAR -->
+  {% include "base/navbar.html" %}
+
+  <!-- HOME -->
+  <section class="section-hero overlay inner-page bg-image" style="background-image: url('{%static 'website/images/hero_1.jpg'%}');" id="home-section">
+  </section>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Conversation with {{ recipient }}</h4>
+                </div>
+                <div class="card-body conversation">
+                    <!-- Display conversation messages -->
+                    {% for message in conversation_messages %}
+                        <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                            <strong>{{ message.sender }}:</strong> {{ message.content }}
+                            <span class="timestamp">{{ message.timestamp }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Form for sending messages -->
+                {% if recipient %}
+                    <div class="card-footer">
+                        <form method="post" action="{% url 'send_message' recipient_id=recipient.id %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <textarea class="form-control" name="content" rows="3" placeholder="Type your message..."></textarea>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary ">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .conversation {
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .sent {
+        background-color: #24282e;
+        color: #fff;
+        align-self: flex-end;
+    }
+
+    .received {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+
+    .timestamp {
+        font-size: 0.8em;
+        margin-left: 10px;
+        color: #6c757d;
+    }
+</style>
+
+{% endblock %}

@@ -1,13 +1,13 @@
 from django.urls import path
 from . import views
-from .views import profile, delete_job_post, verify_job_post, apply_job, dashboard_tracer, delete_tracer, SearchJobsView, recommend_jobs
+from .views import profile, delete_job_post, verify_job_post, apply_job, dashboard_tracer, delete_tracer, SearchJobsView, recommend_jobs, send_message, inbox
 
 urlpatterns = [
     path('', views.home, name="home"),
     path('about/', views.about, name="about"),
     path('login/', views.login, name="login"),
     path('signup/', views.signup, name="signup"),
-    
+
     path('profile/<int:user_id>/', views.profile, name="profile"),
 
     path('user-logout/', views.user_logout, name="user-logout"),
@@ -34,5 +34,9 @@ urlpatterns = [
     path('search/', SearchJobsView.as_view(), name='search_jobs'),
 
     path('home/', recommend_jobs, name='home'),  # Adjust the URL pattern accordingly
+
+    #Message
+    path('send-message/<int:recipient_id>/', send_message, name='send_message'),
+    path('inbox/<int:recipient_id>/', inbox, name='inbox'),
 
 ]
