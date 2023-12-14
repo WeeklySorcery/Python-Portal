@@ -10,7 +10,10 @@
             <div id="layoutSidenav_content">
                 <main>
                     <!-- Main Area -->
-                    <h1 class="mt-4 p-2">Dashboard</h1>
+                    <div class="container-fluid px-4 d-flex align-items-center">
+                    <h1 class=" p-2">Dashboard</h1>
+                    <button id="printButton" class="btn btn-primary mt-8" style="max-height:50px;">Print as PDF</button>
+                    </div>
                     <!-- End of Main Area -->
                     <div class="container-fluid px-4">
                         <!-- Dashboard Stats -->
@@ -68,19 +71,20 @@
                         </div>
                         <!-- End of Dashboard Stats -->
 
-                        <!-- Bar Charts -->
+                        <!-- Combined Bar and Pie Chart -->
                         <div class="row">
-                            <!-- Users Bar Chart -->
-                            <div class="col-md-6">
-                                <canvas id="usersBarChart"></canvas>
+                            <!-- Combined Bar Chart -->
+                            <div class="col-md-7">
+                                <canvas id="combinedChart"></canvas>
                             </div>
 
-                            <!-- Employers Bar Chart -->
-                            <div class="col-md-6">
-                                <canvas id="employersBarChart"></canvas>
+                            <!-- Pie Chart -->
+                            <div class="col-md-4">
+                                <canvas id="pieChart"></canvas>
                             </div>
                         </div>
-                        <!-- End of Bar Charts -->
+                        <!-- End of Combined Chart -->
+
                     </div>
                 </main>
             </div>
@@ -90,53 +94,119 @@
         <!-- Chart.js CDN -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        <!-- Custom script for bar charts -->
+        <!-- Custom script for combined chart -->
         <script>
-            // Users Bar Chart
-            var usersBarChartCanvas = document.getElementById('usersBarChart').getContext('2d');
-            var usersBarChart = new Chart(usersBarChartCanvas, {
+            // Combined Chart
+            var combinedChartCanvas = document.getElementById('combinedChart').getContext('2d');
+            var combinedChart = new Chart(combinedChartCanvas, {
                 type: 'bar',
                 data: {
-                    labels: ['Users'],
-                    datasets: [{
-                        label: 'User Count',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1,
-                        data: [{{ user_count }}]
-                    }]
+                    labels: ['Users', 'Jobs Posted', 'Employers'],
+                    datasets: [
+                        {
+                            label: 'Count',
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(255, 205, 86, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 205, 86, 1)',
+                                'rgba(255, 99, 132, 1)',
+                            ],
+                            borderWidth: 1,
+                            data: [{{ user_count }}, {{ job_posting_count }}, {{ employer_count }}],
+                        },
+                    ],
                 },
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
+                            beginAtZero: true,
+                        },
+                    },
+                },
             });
 
-            // Employers Bar Chart
-            var employersBarChartCanvas = document.getElementById('employersBarChart').getContext('2d');
-            var employersBarChart = new Chart(employersBarChartCanvas, {
-                type: 'bar',
+            // Pie Chart
+            var pieChartCanvas = document.getElementById('pieChart').getContext('2d');
+            var pieChart = new Chart(pieChartCanvas, {
+                type: 'pie',
                 data: {
-                    labels: ['Employers'],
-                    datasets: [{
-                        label: 'Employer Count',
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1,
-                        data: [{{ employer_count }}]
-                    }]
+                    labels: ['Users', 'Jobs Posted', 'Employers'],
+                    datasets: [
+                        {
+                            data: [{{ user_count }}, {{ job_posting_count }}, {{ employer_count }}],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(255, 205, 86, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 205, 86, 1)',
+                                'rgba(255, 99, 132, 1)',
+                            ],
+                            borderWidth: 1,
+                        },
+                    ],
                 },
                 options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
+                    responsive: true,
+                },
             });
         </script>
+                <!-- html2pdf CDN for PDF generation -->
+                <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+                <!-- Custom script for combined chart and print button -->
+                <script>
+// Print Button Logic
+document.getElementById('printButton').addEventListener('click', function () {
+    // Select the main area to be printed
+    const mainArea = document.getElementById('layoutSidenav_content');
+    console.log('Print button clicked');
+
+    // Set willReadFrequently attribute to true for better performance
+    if (mainArea.getContext) {
+        mainArea.getContext('2d').willReadFrequently = true;
+    }
+
+    // Options for the PDF generation
+    const pdfOptions = {
+        margin: 10,
+        filename: 'dashboard.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 }, // Adjust the scale as needed
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        beforeCreatePDF: function (pdf) {
+            // Hide the graphs before creating the PDF
+            document.getElementById('combinedChart').style.display = 'none';
+            document.getElementById('pieChart').style.display = 'none';
+        },
+        afterCreatePDF: function () {
+            // Show the graphs after the PDF is created
+            document.getElementById('combinedChart').style.display = 'block';
+            document.getElementById('pieChart').style.display = 'block';
+        },
+    };
+
+    // Generate PDF after a short delay to ensure content is ready
+    setTimeout(() => {
+        html2pdf().from(mainArea).set(pdfOptions).output('bloburl').then(function (pdfUrl) {
+            // Create a download link for the user to save the PDF
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pdfUrl;
+            downloadLink.download = 'dashboard.pdf';
+
+            // Trigger a click on the link to initiate the download
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
+    }, 1000); // You might need to adjust the delay based on your content loading time
+});
+                </script>
     </body>
 </html>
