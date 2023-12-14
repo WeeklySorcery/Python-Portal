@@ -167,11 +167,17 @@ def dashboard_post(request):
     filter_value = request.GET.get('filter', 'all')
 
     if filter_value == 'verified':
-        job_postings = JobPosting.objects.filter(is_verified=True)
+        job_postings_verified = JobPosting.objects.filter(is_verified=True)
+        job_postings_unverified = JobPosting.objects.filter(is_verified=True)
     elif filter_value == 'unverified':
-        job_postings = JobPosting.objects.filter(is_verified=False)
+        job_postings_verified = []
+        job_postings_unverified = JobPosting.objects.filter(is_verified=False)
     else:
-        job_postings = JobPosting.objects.all()
+        job_postings_verified = JobPosting.objects.filter(is_verified=True)
+        job_postings_unverified = JobPosting.objects.filter(is_verified=False)
+
+    # Concatenate the two querysets, placing unverified ones first
+    job_postings = list(job_postings_unverified) + list(job_postings_verified)
 
     context = {
         'job_postings': job_postings,
