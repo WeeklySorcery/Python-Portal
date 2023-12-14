@@ -141,7 +141,7 @@
       </div>
       <div class="modal-body">
         <!-- Add your form fields for editing profile details here -->
-        <form method="post" action="{% url 'profile' user.username %}" enctype="multipart/form-data">
+        <form method="post" action="{% url 'profile' user.id %}" enctype="multipart/form-data">
           {% csrf_token %}
 
           <!-- Profile Picture -->

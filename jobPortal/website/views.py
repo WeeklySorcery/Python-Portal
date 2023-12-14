@@ -89,18 +89,18 @@ def user_logout(request):
     return redirect('home')
 
 @login_required
-def profile(request, username):
-    user_profile = request.user.userprofile
+def profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
 
     if request.method == 'POST':
-        form = UserProfileEditForm(request.POST, request.FILES, instance=user_profile)
+        form = UserProfileEditForm(request.POST, request.FILES, instance=user.userprofile)
         if form.is_valid():
             form.save()
-            return redirect('profile', username=username)  # Redirect to the profile page after saving
+            return redirect('profile', user_id=user.id)  # Redirect to the profile page after saving
     else:
-        form = UserProfileEditForm(instance=user_profile)
+        form = UserProfileEditForm(instance=user.userprofile)
 
-    return render(request, 'profile.html', {'form': form})
+    return render(request, 'profile.html', {'user': user, 'form': form})
 
 @login_required
 def company_profile(request):

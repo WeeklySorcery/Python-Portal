@@ -72,7 +72,7 @@
             <tbody>
                 {% for application in job_posting.usercv_set.all %}
                     <tr>
-                        {% comment %} <td><a href="{% url 'profile' application.user.username %}" target="_blank">{{ application.user.get_full_name }}</a></td> {% endcomment %}
+                        <td><a href="{% url 'profile' application.user.id %}" target="_blank">{{ application.user.get_full_name }}</a></td>
                         <td>{{ application.user.get_full_name }}</td>
                         <td>{{ application.user.username }}</td>
                         <td>
