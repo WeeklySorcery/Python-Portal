@@ -19,7 +19,6 @@
                 {% else %}
                 <li><a href="{% url 'job_find' %}">Job Find</a></li>
                 {% endif %}
-                <li><a href="contact.html">Contact</a></li>
                 <li class="d-lg-none">
                   {% if user.is_authenticated %}
                       <a href="{% url 'profile' username=user.username %}">Profile</a>
