@@ -14,14 +14,20 @@
                         <h1 class="mt-4">Job Postings</h1>
 
                         <div class="mb-3">
-                            <form method="get" action="{% url 'dashboard_post' %}">
-                                <label for="filter">Filter by:</label>
-                                <select name="filter" id="filter" class="form-select">
-                                    <option value="all" {% if filter == 'all' %}selected{% endif %}>All</option>
-                                    <option value="verified" {% if filter == 'verified' %}selected{% endif %}>Verified</option>
-                                    <option value="unverified" {% if filter == 'unverified' %}selected{% endif %}>Unverified</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary mt-2">Apply</button>
+                            <form method="get" action="{% url 'dashboard_post' %}" class="flex-grow-1">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="filter">Filter by:</label>
+                                        <select name="filter" id="filter" class="form-select">
+                                            <option value="all" {% if filter == 'all' %}selected{% endif %}>All</option>
+                                            <option value="verified" {% if filter == 'verified' %}selected{% endif %}>Verified</option>
+                                            <option value="unverified" {% if filter == 'unverified' %}selected{% endif %}>Unverified</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-primary mt-4">Apply</button>
+                                    </div>
+                                </div>
                             </form>
                             <button id="printButton" class="btn btn-primary mt-2">Print as PDF</button>
                         </div>
