@@ -344,6 +344,11 @@ class SearchJobsView(View):
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def recommend_jobs(request):
+
+    user_count = User.objects.count()
+    job_posting_count = JobPosting.objects.count()
+    employer_count = Employer.objects.count()
+    
     try:
         user_id = request.user.id
         user_profile = UserProfile.objects.get(user=user_id)
