@@ -120,6 +120,8 @@
                       <h5 class="d-flex align-items-center mb-3">Skill Descriptions</h5>
                       <p>{{ user.userprofile.skill_description }}</p>
                     </div>
+                    <div class="mt-3 align-items-center text-center">
+                  </div>
                   </div>
                 </div>
               </div>
@@ -127,9 +129,19 @@
           </div>
         </div>
       </div>
+
+
+
+<!-- Fixed message icon in the bottom right corner -->
+<div class="position-fixed" style="bottom: 40px; right: 40px;"> <!-- Adjust the bottom and right margins as needed -->
+  <a href="{% url 'inbox' request.user.id %}" class="btn btn-primary text-center fixed-message-icon">
+      <i class="icon-mail_outline" style="font-size: 40px;"></i> <!-- Adjust the font size as needed -->
+  </a>
+</div>
+
+
     </section>
 
-    
 
    <!-- Bootstrap Modal for Edit Profile -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
