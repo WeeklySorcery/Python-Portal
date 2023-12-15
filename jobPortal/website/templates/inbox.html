@@ -9,34 +9,47 @@
       </div>
     </div>
     <div class="site-mobile-menu-body"></div>
-  </div> <!-- .site-mobile-menu -->
-  
+</div> <!-- .site-mobile-menu -->
 
-  <!-- NAVBAR -->
-  {% include "base/navbar.html" %}
+<!-- NAVBAR -->
+{% include "base/navbar.html" %}
 
-  <!-- HOME -->
-  <section class="section-hero overlay inner-page bg-image" style="background-image: url('{%static 'website/images/hero_1.jpg'%}');" id="home-section">
-  </section>
+<!-- HOME -->
+<section class="section-hero overlay inner-page bg-image" style="background-image: url('{%static 'website/images/hero_1.jpg'%}');" id="home-section">
+</section>
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">Conversation with {{ recipient }}</h4>
-                </div>
-                <div class="card-body conversation">
-                    <!-- Display conversation messages -->
-                    {% for message in conversation_messages %}
-                        <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
-                            <strong>{{ message.sender }}:</strong> {{ message.content }}
-                            <span class="timestamp">{{ message.timestamp }}</span>
-                        </div>
+            {% if recipient == request.user %}
+                <!-- Display the list of users who messaged the logged-in user -->
+                <h4 class="mb-4">Users who messaged you:</h4>
+                <ul class="list-group">
+                    {% for message in received_messages %}
+                        {% with sender=message.sender %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ sender.get_full_name }}
+                                <a href="{% url 'inbox' recipient_id=sender.id %}" class="btn btn-secondary">View</a>
+                            </li>
+                        {% endwith %}
                     {% endfor %}
-                </div>
-                <!-- Form for sending messages -->
-                {% if recipient %}
+                </ul>
+            {% else %}
+                <!-- If recipient is specified, show the conversation -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Conversation with {{ recipient }}</h4>
+                    </div>
+                    <div class="card-body conversation">
+                        <!-- Display conversation messages -->
+                        {% for message in conversation_messages %}
+                            <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                                <strong>{{ message.sender }}:</strong> {{ message.content }}
+                                <span class="timestamp">{{ message.timestamp }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Form for sending messages -->
                     <div class="card-footer">
                         <form method="post" action="{% url 'send_message' recipient_id=recipient.id %}">
                             {% csrf_token %}
@@ -48,8 +61,8 @@
                             </div>
                         </form>
                     </div>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

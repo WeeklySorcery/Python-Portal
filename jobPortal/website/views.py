@@ -14,7 +14,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from django.db.models import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Q, Count
 
 
 def home(request):
@@ -422,8 +422,16 @@ def send_message(request, recipient_id):
 
 @login_required
 def inbox(request, recipient_id=None):
+    # Fetch all received messages for the current user
     received_messages = Message.objects.filter(recipient=request.user)
+
+    # Fetch all sent messages by the current user
     sent_messages = Message.objects.filter(sender=request.user)
+
+     # Collect unique senders who messaged the logged-in user
+    unique_senders = User.objects.filter(received_messages__recipient=request.user).annotate(
+        num_messages=Count('received_messages')
+    ).filter(num_messages__gt=0).exclude(id=request.user.id)
 
     # Set the recipient based on the provided recipient_id or the first user in the system
     recipient = get_object_or_404(User, id=recipient_id) if recipient_id else User.objects.exclude(id=request.user.id).first()
@@ -433,10 +441,15 @@ def inbox(request, recipient_id=None):
         Q(sender=request.user, recipient=recipient) | Q(sender=recipient, recipient=request.user)
     ).order_by('timestamp')
 
+    # Get a list of users who have sent messages to the current user
+    senders = User.objects.exclude(id=request.user.id).filter(received_messages__recipient=request.user).distinct()
+
     context = {
         'received_messages': received_messages,
         'sent_messages': sent_messages,
         'recipient': recipient,
         'conversation_messages': conversation_messages,
+        'senders': senders,
+        'unique_senders': unique_senders,
     }
     return render(request, 'inbox.html', context)
