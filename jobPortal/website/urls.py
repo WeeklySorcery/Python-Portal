@@ -39,4 +39,8 @@ urlpatterns = [
     path('send-message/<int:recipient_id>/', send_message, name='send_message'),
     path('inbox/<int:recipient_id>/', inbox, name='inbox'),
 
+    #peeps
+    path('people/', views.people, name="people"),
+
+
 ]

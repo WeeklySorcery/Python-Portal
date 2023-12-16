@@ -453,3 +453,14 @@ def inbox(request, recipient_id=None):
         'unique_senders': unique_senders,
     }
     return render(request, 'inbox.html', context)
+
+
+def people(request):
+    # Retrieve all user profiles
+    user_profiles = UserProfile.objects.all()
+    
+    context = {
+        'user_profiles': user_profiles,
+    }
+
+    return render(request, 'people.html', context)
