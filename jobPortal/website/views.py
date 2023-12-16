@@ -15,6 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from django.db.models import ObjectDoesNotExist
 from django.db.models import Q, Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
@@ -387,6 +388,17 @@ def recommend_jobs(request):
 
                 # Get the recommended job postings
                 recommended_job_postings = [job_postings[index] for index in valid_indices]
+
+                # Paginate the recommended job postings
+                page = request.GET.get('page', 1)
+                paginator = Paginator(recommended_job_postings, 10)  # Adjust the number per page as needed
+
+                try:
+                    recommended_job_postings = paginator.page(page)
+                except PageNotAnInteger:
+                    recommended_job_postings = paginator.page(1)
+                except EmptyPage:
+                    recommended_job_postings = paginator.page(paginator.num_pages)
 
             else:
                 recommended_job_postings = []

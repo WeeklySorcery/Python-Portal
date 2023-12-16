@@ -93,6 +93,7 @@
           </div>
         </div>
         
+        {% if user.is_authenticated and user.userprofile.skill_description %}
         <ul class="job-listings mb-5">
             {% for job_posting in recommended_job_postings  %}
                 <!-- Similar structure to your existing code -->
@@ -125,25 +126,51 @@
                 </li>
             {% endfor %}
         </ul>
+        
 
-          <div class="row pagination-wrap">
-            <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-                <span>Showing {{ recommended_job_postings.start_index }}-{% if recommended_job_postings.end_index > recommended_job_postings.paginator.count %}{{ recommended_job_postings.paginator.count }}{% else %}{{ recommended_job_postings.end_index }}{% endif %} Of {{ recommended_job_postings.paginator.count }} Jobs</span>
-            </div>
-            <div class="col-md-6 text-center text-md-right">
-                <div class="custom-pagination ml-auto">
-                    {% if recommended_job_postings.has_previous %}
-                        <a href="?page={{ recommended_job_postings.previous_page_number }}" class="prev">Prev</a>
-                    {% endif %}
-                    {% for i in recommended_job_postings.paginator.page_range %}
-                        <a href="?page={{ i }}" {% if i == recommended_job_postings.number %}class="active"{% endif %}>{{ i }}</a>
-                    {% endfor %}
-                    {% if recommended_job_postings.has_next %}
-                        <a href="?page={{ recommended_job_postings.next_page_number }}" class="next">Next</a>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="row pagination-wrap">
+          <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+              <span>
+                  Showing
+                  {% if recommended_job_postings %}
+                      {{ recommended_job_postings.start_index }}-{% if recommended_job_postings.end_index > recommended_job_postings.paginator.count %}
+                          {{ recommended_job_postings.paginator.count }}
+                      {% else %}
+                          {{ recommended_job_postings.end_index }}
+                      {% endif %}
+                  {% else %}
+                      0
+                  {% endif %}
+                  Of {{ recommended_job_postings.paginator.count }} Jobs
+              </span>
+          </div>
+          <div class="col-md-6 text-center text-md-right">
+              <div class="custom-pagination ml-auto">
+                  {% if recommended_job_postings.has_previous %}
+                      <a href="?page={{ recommended_job_postings.previous_page_number }}" class="prev">Prev</a>
+                  {% endif %}
+                  {% for i in recommended_job_postings.paginator.page_range %}
+                      <a href="?page={{ i }}" {% if i == recommended_job_postings.number %}class="active"{% endif %}>{{ i }}</a>
+                  {% endfor %}
+                  {% if recommended_job_postings.has_next %}
+                      <a href="?page={{ recommended_job_postings.next_page_number }}" class="next">Next</a>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+
+        <!--Else for if the user is not login or no skill desc-->
+        {% else %}
+        <!-- Display a message if the user is not logged in or has an empty skill description -->
+        <div class="text-center">
+            {% if user.is_authenticated %}
+                <p>Your skill description is empty. Fill it up to get job recommendations.</p>
+            {% else %}
+                <p>Login first to get personalized job recommendations.</p>
+            {% endif %}
         </div>
+        {% endif %}
+
       </div>
     </section>
 
