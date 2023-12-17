@@ -72,15 +72,10 @@
             <tbody>
                 {% for application in job_posting.usercv_set.all %}
                     <tr>
-                        <td><a href="{% url 'profile' application.user.id %}" target="_blank">{{ application.user.get_full_name }}</a></td>
-                        <td>{{ application.user.get_full_name }}</td>
+                        <td><a href="{% url 'profile' application.user.id %}" >{{ application.user.get_full_name }}</a></td>
                         <td>{{ application.user.username }}</td>
                         <td>
-                            <a href="{{ application.resume.url }}" target="_blank">View CV</a>
-                        </td>
-                        <td>
-                            <button class="btn btn-success">Accept</button>
-                            <button class="btn btn-danger" >Reject</button>
+                           <a href="{{ application.resume.url }}" target="_blank" class="btn btn-info">View CV</a>
                         </td>
                     </tr>
                 {% endfor %}
